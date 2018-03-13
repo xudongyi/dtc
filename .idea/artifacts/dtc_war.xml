@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="dtc:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="dtc-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="dtc:war exploded" />
+    </root>
+  </artifact>
+</component>

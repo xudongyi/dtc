@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+       		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+       		http://www.springframework.org/schema/mvc  
+      		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd"
+       default-lazy-init="true">
+
+    <!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/page/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!-- 使用注解 -->
+    <!-- Activates scanning of @Autowired -->
+    <!-- <context:annotation-config/> -->
+
+    <!-- 扫描business包下所有注入注解的控制器 -->
+    <context:component-scan base-package="com.business.dtc"/>
+    <!-- 启动注解 -->
+    <mvc:annotation-driven>
+        <!-- 处理responseBody 里面日期类型 -->
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                        <property name="dateFormat">
+                            <bean class="java.text.SimpleDateFormat">
+                                <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"/>
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!-- 给business包下所有Action结尾的类的所有方法根据需要注入数据库连接服务类 -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <aop:config>
+        <aop:aspect id="aspectController" ref="aspectControllerInterceptor">
+            <aop:pointcut id="businessService" expression="execution(* com.business..*Action.*(..))"/>
+            <aop:around pointcut-ref="businessService" method="doAround"/>
+            <aop:after-throwing pointcut-ref="businessService" method="doThrowing" throwing="ex"/>
+        </aop:aspect>
+    </aop:config>
+    <bean id="aspectControllerInterceptor" class="net.sf.rose.web.spring.ControllerInterceptor"/>
+
+    <!-- 上传附件 设置上传文件的最大尺寸为10MB -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize">
+            <value>104857600</value>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="org.apache.shiro.authz.UnauthorizedException">401</prop>  <!-- /page/401.jsp -->
+                <prop key="org.apache.shiro.authz.AuthorizationException">401</prop>
+            </props>
+        </property>
+    </bean>
+</beans> 

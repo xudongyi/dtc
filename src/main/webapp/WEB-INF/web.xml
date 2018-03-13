@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         id="AuthorizationSystem" version="3.0">
+    <display-name>dtc</display-name>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:applicationContext.xml,classpath:quartz.xml</param-value>
+    </context-param>
+    <listener>
+        <description>经过定制的spring程序初始化器</description>
+        <listener-class>net.sf.rose.web.spring.InitialContextLoaderListener</listener-class>
+    </listener>
+    <filter>
+        <filter-name>SetCharacterEncoding</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>utf-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>SetCharacterEncoding</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <servlet>
+        <description>dtc</description>
+        <display-name>dtc</display-name>
+        <servlet-name>dtc</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:applicationContext.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dtc</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+    <filter>
+        <filter-name>cors</filter-name>
+        <filter-class>com.business.dtc.filter.CorsFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>cors</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <context-param>
+        <param-name>webAppRootKey</param-name>
+        <param-value>dtc.root</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+    </listener>
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>/page/dtc.jsp</welcome-file>
+    </welcome-file-list>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/page/404.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>401</error-code>
+        <location>/page/401.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/page/500.jsp</location>
+    </error-page>
+
+</web-app>
