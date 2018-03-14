@@ -1,0 +1,5 @@
+/**设置body的高度和宽度,防止mini-fit  height:0的问题**/
+body{
+	width: 100%;
+	height: 100%;
+}

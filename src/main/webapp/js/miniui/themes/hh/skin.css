@@ -1,0 +1,206 @@
+﻿/* base
+==========================================*/
+
+
+
+/* tools
+==========================================*/
+
+
+
+/* popup
+==========================================*/
+
+
+/* toolbar
+==========================================*/
+
+
+/* button
+==========================================*/
+
+
+/* textbox
+==========================================*/
+
+
+
+/* buttonedit
+==========================================*/
+.mini-popupedit .mini-buttonedit-trigger .mini-buttonedit-icon{
+	background: url(images/buttonedit/icon2.png) no-repeat 5px 5px;
+}
+
+
+/* textboxlist
+==========================================*/
+
+
+
+/* htmlfile
+==========================================*/
+
+
+
+/* panel
+==========================================*/
+.mini-panel-border{
+	border: 1px solid #e0e0e0;
+}
+
+
+
+
+
+/* window
+==========================================*/
+
+
+
+/* outlookbar
+==========================================*/
+
+
+
+
+/* splitter
+==========================================*/
+
+
+
+/* layout
+==========================================*/
+
+
+/* menu
+==========================================*/
+
+
+
+/* pager
+==========================================*/
+.mini-grid-pager{
+	border-top:1px solid #ebebeb !important;
+}
+.mini-pager{
+	background: #fff;
+}
+.mini-pager-size .mini-buttonedit-border{
+	 border: 1px solid #ebebeb !important;
+}
+.mini-pager-size .mini-combobox {
+    width: 54px;
+}
+.mini-pager a:hover.mini-button{
+	border: 1px solid #fff !important;
+	background: transparent;
+}
+.mini-pager a.mini-button-disabled{
+	border: 1px solid #fff !important;
+	padding: 0 !important;
+}
+.mini-pager-left {
+    top: -1px !important;
+}
+.mini-pager-first
+{    
+    background:url(images/pager/first.png) no-repeat;
+}
+.mini-pager a:hover.mini-pager-first{
+	 background:url(images/pager/1-sy.png) no-repeat !important;
+}
+.mini-pager .mini-button{
+	width: 58px !important;
+	text-align: left !important;
+}
+.mini-pager .mini-button-icon{
+	width:58px;
+	height: 26px;
+	margin-top: -14px;
+}
+.mini-pager-prev
+{
+    background-image:url(images/pager/prev.png);
+}
+.mini-pager-next
+{
+    background-image:url(images/pager/next.png);
+}
+.mini-pager-last
+{
+    background-image:url(images/pager/last.png);
+}
+.mini-pager-reload
+{
+    background-image:url(images/pager/reload.png);
+    width: 18px !important;
+}
+.mini-pager-index {
+    margin-left: 4px;
+     font-family: "微软雅黑","microsoft yahei";
+}
+.mini-pager-num{
+	height: 20px !important;
+    top: -1px !important;
+    border: 1px solid #ebebeb !important;
+    font-size: 13px !important;
+}
+.mini-pager-pages {
+    font-size: 13px;
+}
+
+
+/* datagrid
+==========================================*/
+.mini-grid-headerCell{
+	height: 50px;
+	border-color: #e0e0e0;
+	background: #edf3f7;
+	color: #3f6edb;
+    font-family: "微软雅黑","microsoft yahei";
+    font-size: 14px;
+}
+.mini-grid-rightCell{
+	border-right-width:0 !important ;
+}
+.mini-grid-row{
+	height: 43px;
+}
+.mini-grid-cell{
+	font-family: "微软雅黑","microsoft yahei" !important;
+	font-size: 13px;
+	border-color: #e0e0e0;
+}
+/* tree
+==========================================*/
+
+
+
+/* listbox
+==========================================*/
+
+
+
+/* tabs
+==========================================*/
+
+
+
+/* tooltip
+==========================================*/
+
+
+
+/* calendar
+==========================================*/
+
+
+
+/* progressbar
+==========================================*/
+
+
+
+
+
+
