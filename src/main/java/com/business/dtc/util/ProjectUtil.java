@@ -1,8 +1,8 @@
 package com.business.dtc.util;
 
-import com.business.dtc.bean.DtcCenterBean;
-
 import javax.servlet.http.HttpServletRequest;
+
+import com.business.dtc.bean.DtcCenterBean;
 
 /**
  * @author: xudy
@@ -11,13 +11,14 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class ProjectUtil {
 
-    /**
-     * 登录后将信息存放到session当中(设置session的过期时间为1天,这样可以一天不用刷新页面)
-     * @param request
-     * @return
-     */
-    public static DtcCenterBean getCurrentLoginInfo(HttpServletRequest request){
-        DtcCenterBean info = (DtcCenterBean) request.getSession().getAttribute("user");
-        return info;
-    }
+	/**
+	 * 登录后将信息存放到session当中(设置session的过期时间为1天,这样可以一天不用刷新页面)
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static DtcCenterBean getCurrentLoginInfo(HttpServletRequest request) {
+		DtcCenterBean info = (DtcCenterBean) request.getSession().getAttribute("user");
+		return info;
+	}
 }
