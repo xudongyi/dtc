@@ -62,7 +62,7 @@
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
     </listener>
     <session-config>
-        <session-timeout>30</session-timeout>
+        <session-timeout>1440</session-timeout>
     </session-config>
     <welcome-file-list>
         <welcome-file>/page/dtc.jsp</welcome-file>

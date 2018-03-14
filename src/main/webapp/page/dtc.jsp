@@ -14,7 +14,7 @@
     <title>Center Random 临床试验中央随机系统</title>
     <script src="${ctx}/js/boot.js" type="text/javascript" charset="utf-8"></script>
     <script src="${ctx}/js/vue.min.js" type="text/javascript" charset="utf-8"></script>
-    <link rel="stylesheet" type="text/css" href="${ctx}/css/dtc-main.css" />
+    <link rel="stylesheet" type="text/css" href="${ctx}/css/dtc.css" />
     <style>
         .level2 {
             position: absolute;

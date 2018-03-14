@@ -8,7 +8,7 @@ import net.sf.rose.jdbc.bean.annotation.Type;
 /**
  * @author: xudy
  * @date: 2018/03/14 10:20
- * @descrption:测试中心
+ * @description:测试中心
  */
 @Table(name = "DTC_CENTER")
 public class DtcCenterBean extends ModelBean {
