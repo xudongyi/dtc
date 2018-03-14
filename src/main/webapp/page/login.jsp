@@ -10,9 +10,11 @@
 <html>
 <head>
     <title>欢迎您,请登录Center Random 临床试验中央随机系统</title>
-
+    <link rel="stylesheet" href="../css/base.css">
+    <script src="../js/boot.js"></script>
 </head>
 <body>
-
+   登录页面
+   <img src="../images/dtc/1-GISdt.png" alt="">
 </body>
 </html>
