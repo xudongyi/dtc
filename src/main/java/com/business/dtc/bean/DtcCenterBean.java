@@ -7,7 +7,7 @@ import net.sf.rose.jdbc.bean.annotation.Type;
 
 /**
  * @author: xudy
- * @date: 2018/03/14 10:20
+ * @date: 2018/03/13 19:20
  * @description:测试中心
  */
 @Table(name = "DTC_CENTER")
@@ -16,7 +16,7 @@ public class DtcCenterBean extends ModelBean {
 	@Column(pk = true, name = "ID", type = Type.定长文本, description = "主键", canNull = false, size = 32, policy = "UUID")
 	private String id;
 
-	@Column(name = "CENTER_NO", type = Type.变长文本, canNull = false, size = 10)
+	@Column(name = "CENTER_NO", type = Type.变长文本, canNull = false, size = 10, description = "用在生成病人序列号")
 	private String centerNo;
 
 	@Column(name = "CENTER_NAME", type = Type.变长文本, size = 50)
@@ -31,16 +31,16 @@ public class DtcCenterBean extends ModelBean {
 	@Column(name = "PASSWORD", type = Type.变长文本, canNull = false, size = 50)
 	private String password;
 
-	@Column(name = "ROLE", type = Type.数字整型, canNull = false)
+	@Column(name = "ROLE", type = Type.数字整型, canNull = false, description = "1-中央(默认数据库中创建一个中央的记录,用于维护中心数据)  2-中心")
 	private int role;
 
 	@Column(name = "REAL_NAME", type = Type.变长文本, size = 50)
 	private String realName;
 
-	@Column(name = "MOBILE", type = Type.变长文本, size = 50)
+	@Column(name = "MOBILE", type = Type.变长文本, size = 20)
 	private String mobile;
 
-	@Column(name = "USER_STATE", type = Type.数字整型, canNull = false)
+	@Column(name = "USER_STATE", type = Type.数字整型, canNull = false, description = "1-正常 2-禁用")
 	private int userState;
 
 	@Column(name = "IS_DELETED", type = Type.数字整型, canNull = false)
