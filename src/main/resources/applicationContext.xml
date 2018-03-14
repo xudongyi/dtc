@@ -58,13 +58,4 @@
             <value>104857600</value>
         </property>
     </bean>
-
-    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-        <property name="exceptionMappings">
-            <props>
-                <prop key="org.apache.shiro.authz.UnauthorizedException">401</prop>  <!-- /page/401.jsp -->
-                <prop key="org.apache.shiro.authz.AuthorizationException">401</prop>
-            </props>
-        </property>
-    </bean>
-</beans> 
+</beans>
