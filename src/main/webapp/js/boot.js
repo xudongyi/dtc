@@ -23,6 +23,7 @@ __CreateJSPath = function(js) {
 }
 
 var bootPATH = __CreateJSPath("boot.js");
+document.write('<script src="' + bootPATH + '/js/base-loading.js"></script>');
 document.write('<link href="' + bootPATH + '/css/base.css" rel="stylesheet" type="text/css" />');
 /*****miniui导入开始******/
 document.write('<link href="' + bootPATH + '/js/miniui/themes/default/miniui.css" rel="stylesheet" type="text/css" />');

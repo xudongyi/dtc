@@ -80,7 +80,7 @@
         </div>
     </div>
     <div class="content" id="main" :class="[tabLevel==1?'iframeOne':'',tabLevel==2?'iframeTwo':'']"><iframe id="iframe-main" :src="initSrc"></iframe></div>
-    <div class="footer">南通市环保局</div>
+    <div class="footer">Power By  汇聚软件有限公司  Copyright @ 2017-2018 All rights Reserved</div>
 </div>
 </body>
 <script type="text/javascript">
@@ -101,44 +101,44 @@
                 url: "http://www.baidu.com",
                 img: "${ctx}/images/dtc/1-GISdt.png",
                 parent_id: "",
-                id: 1,
+                id: 1
             }, {
                 name: "试验分组详情",
-                url: "http://www.sina.com",
+                url: "http://www.baidu.com",
                 img: "${ctx}/images/dtc/2-jcsj.png",
                 parent_id: "",
-                id: 2,
+                id: 2
 
             }, {
                 name: "试验进展报告",
-                url: "http://www.runoob.com/",
+                url: "http://www.baidu.com",
                 img: "${ctx}/images/dtc/3-tjfx.png",
                 parent_id: "",
-                id: 3,
+                id: 3
             }, {
-                name: "维护",
+                name: "基础信息维护",
                 url: "",
-                img: "${ctx}/images/dtc/6-xtgl.png",
+                img: "${ctx}/images/dtc/4-cbbj.png",
                 parent_id: "",
-                id: 4,
+                id: 4
             },{
                 name: "中心维护",
-                url: "http://www.taobao.com",
-                img: "${ctx}/images/dtc/6-xtgl.png",
+                url: "http://www.baidu.com",
+                img: "${ctx}/images/dtc/4-cbbj.png",
                 parent_id: 4,
-                id: 41,
+                id: 41
             },{
                 name: "年龄组维护",
-                url: "http://www.taobao.com",
-                img: "${ctx}/images/dtc/6-xtgl.png",
+                url: "http://www.baidu.com",
+                img: "${ctx}/images/dtc/4-cbbj.png",
                 parent_id: 4,
-                id: 42,
+                id: 42
             },{
                 name: "系统设置",
-                url: "http://www.taobao.com",
+                url: "http://www.baidu.com",
                 img: "${ctx}/images/dtc/6-xtgl.png",
                 parent_id: "",
-                id: 5,
+                id: 5
             }];
             //数据整理
             var level1 = [];
@@ -184,11 +184,11 @@
                 if(level.length > 0) {
                     Vue.set(this.tabList[index], "show", true);
                     this.tabLevel = 2;
-                    this.initSrc = this.tabList[index].level2[0].url;
+                    this.initSrc = this.tabList[index].level2[0].url+"?d="+new Date().getTime();
                 } else {
                     this.tabLevel = 1;
                     Vue.set(this.tabList[index], "show", false);
-                    this.initSrc = url;
+                    this.initSrc = url+"?d="+new Date().getTime();
                 }
             },
             levelTwoClick: function(url, index) {
