@@ -22,8 +22,8 @@ public class DtcTestCenterGroupBean extends ModelBean {
 	@Column(name = "TEST_CENTER_ID", type = Type.变长文本, canNull = false, size = 32)
 	private String testCenterId;
 
-	@Column(name = "GROUP", type = Type.变长文本, description = "分组A,B")
-	private String group;
+	@Column(name = "GROUP_NAME", type = Type.变长文本, description = "分组A,B")
+	private String groupName;
 
 	@Column(name = "GROUP_ID", type = Type.变长文本, canNull = false, size = 32)
 	private String groupId;
@@ -52,12 +52,12 @@ public class DtcTestCenterGroupBean extends ModelBean {
 		this.testCenterId = testCenterId;
 	}
 
-	public String getGroup() {
-		return group;
+	public String getGroupName() {
+		return groupName;
 	}
 
-	public void setGroup(String group) {
-		this.group = group;
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
 	}
 
 	public String getGroupId() {

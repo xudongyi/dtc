@@ -10,7 +10,7 @@ import net.sf.rose.jdbc.bean.annotation.Type;
  * @date: 2018/03/13 19:20
  * @description:检验测试缓存
  */
-@Table(name = "DTC_TEST_CENTER_GROUP")
+@Table(name = "DTC_TEST_NUMBER_CACHE")
 public class DtcTestNumberCacheBean extends ModelBean {
 
 	@Column(pk = true, name = "ID", type = Type.定长文本, description = "主键", canNull = false, size = 32, policy = "UUID")
