@@ -2,12 +2,16 @@ package com.business.dtc.action;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.business.dtc.bean.DtcCenterBean;
+import com.business.dtc.util.DBTools;
+import com.business.dtc.util.ResponseData;
 import net.sf.rose.jdbc.UserBean;
 import net.sf.rose.jdbc.service.Service;
 import net.sf.rose.util.ConstantCode;
 import net.sf.rose.util.DateFormat;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,10 +31,30 @@ public class LoginAction {
      */
     @RequestMapping("/login.do")
     @ResponseBody
-    public void login(Service service, HttpServletRequest request){
+    public ResponseData login(Service service, HttpServletRequest request, String username, String password){
+        //1.根据用户名和密码进行校验
+        DtcCenterBean bean = DBTools.getBean(service,DtcCenterBean.class,"select * from DTC_CENTER where USER_NAME=? AND PASSWORD=? AND IS_DELETED=1",username,password);
+        if(bean==null){
+            return ResponseData.buildResponseData(1,"用户名或密码不正确!",null);
+        }else{
+            if(bean.getUserState()==2){
+                return ResponseData.buildResponseData(2,"用户被禁用!",null);
+            }
+        }
+        ResponseData data =  ResponseData.buildResponseData(200,"正常登录",bean);
         UserBean user = new UserBean();
-        user.setUserName("admin"+",张三");
+        user.setUserName(bean.getUserName()+"-"+bean.getRealName());
         user.setLastLoginTime(DateFormat.getTimestamp());
         request.getSession().setAttribute(ConstantCode.USER_BEAN_NAME,user);
+        request.getSession().setAttribute("user",bean);
+        return data;
+    }
+
+    @RequestMapping("/loginOut.do")
+    @ResponseBody
+    public boolean loginOut(Service service, HttpServletRequest request){
+        request.getSession().removeAttribute(ConstantCode.USER_BEAN_NAME);
+        request.getSession().removeAttribute("user");
+        return true;
     }
 }

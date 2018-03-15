@@ -66,13 +66,13 @@
                 <div class="left-button">
                     <img src="${ctx}/images/dtc/a-xgmm.png" alt="" />
                     <img src="${ctx}/images/dtc/b-help.png" alt="" />
-                    <img src="${ctx}/images/dtc/c-tuic.png" alt="" />
+                    <img src="${ctx}/images/dtc/c-tuic.png" alt="" @click="loginOut"/>
                 </div>
 
                 <div class="right-info">
                     <img src="${ctx}/images/dtc/toux.png" alt="" />
                     <div class="detail">
-                        <div>欢迎您，admin</div>
+                        <div>欢迎您，${sessionScope.get("user").realName}</div>
                         <div>{{dateTime}}</div>
                     </div>
                 </div>
@@ -201,6 +201,16 @@
                         Vue.set(this.tabList[i], "show", false);
                     }
                 }
+            },
+            loginOut:function(){
+                $.ajax({
+                    url:"${ctx}/user/loginOut.do",
+                    success:function(data){
+                        if(data){
+                            location.href = "${ctx}/page/login.jsp";
+                        }
+                    }
+                })
             }
         },
     })

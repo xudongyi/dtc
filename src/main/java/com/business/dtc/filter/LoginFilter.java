@@ -21,11 +21,6 @@ public class LoginFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
-		// TODO 暂时不做任何过滤
-		if (true) {
-			filterChain.doFilter(servletRequest, servletResponse);
-			return;
-		}
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
 		request.setCharacterEncoding("UTF-8");
@@ -34,12 +29,16 @@ public class LoginFilter implements Filter {
 		// 获得用户请求的URI
 		String path = request.getRequestURI();
 		// 登陆页面过滤 css,js,images
-		if (path.indexOf("/login.jsp") > -1 || path.contains("/css/") || path.contains("/js/") || path.contains("/images/")) {
+		if (path.indexOf(".do") > -1 || path.indexOf("/login.jsp") > -1 || path.contains("/css/") || path.contains("/js/") || path.contains("/images/")) {
 			filterChain.doFilter(servletRequest, servletResponse);
 			return;
 		}
 		HttpSession session = request.getSession();
-		response.sendRedirect(projectName + "/page/login.jsp");
+		if(session.getAttribute("user")==null){
+            response.sendRedirect(projectName + "/page/login.jsp");
+        }else{
+            filterChain.doFilter(servletRequest, servletResponse);
+        }
 	}
 
 	@Override
