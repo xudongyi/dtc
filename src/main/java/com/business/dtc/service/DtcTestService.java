@@ -1,6 +1,7 @@
 package com.business.dtc.service;
 
 import com.business.dtc.bean.DtcAgeGroupBean;
+import com.business.dtc.bean.DtcTestBean;
 import com.business.dtc.bean.DtcTestCenterPatient;
 import net.sf.rose.jdbc.service.Service;
 
@@ -40,4 +41,12 @@ public interface DtcTestService {
      * @return
      */
     DtcAgeGroupBean getAgeGroupByAge(Service service,int age);
+
+    /**
+     * 获取当前正在进行的测试
+     * @param service
+     * @return
+     */
+    DtcTestBean getCurrentTest(Service service);
+
 }

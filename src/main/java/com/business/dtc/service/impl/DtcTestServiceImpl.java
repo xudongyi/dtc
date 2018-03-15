@@ -1,6 +1,7 @@
 package com.business.dtc.service.impl;
 
 import com.business.dtc.bean.DtcAgeGroupBean;
+import com.business.dtc.bean.DtcTestBean;
 import com.business.dtc.bean.DtcTestCenterPatient;
 import com.business.dtc.service.DtcTestService;
 import net.sf.rose.jdbc.service.Service;
@@ -10,6 +11,7 @@ import net.sf.rose.jdbc.service.Service;
  * @date: 2018/03/14 16:54
  * @description:
  */
+@org.springframework.stereotype.Service
 public class DtcTestServiceImpl implements DtcTestService {
 
     @Override
@@ -34,6 +36,11 @@ public class DtcTestServiceImpl implements DtcTestService {
 
     @Override
     public DtcAgeGroupBean getAgeGroupByAge(Service service, int age) {
+        return null;
+    }
+
+    @Override
+    public DtcTestBean getCurrentTest(Service service) {
         return null;
     }
 
