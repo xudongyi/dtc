@@ -88,7 +88,14 @@
                                 delCookie("remember");
                                 delCookie("cacheUser");
                             }
-                            location.href ="${ctx}/" ;
+                            if(data.data.role ==1){
+                                //管理员
+                                location.href ="${ctx}/page/dtc.jsp";
+                            }else if(data.data.role ==2){
+                                //中心
+                                location.href ="${ctx}/page/dtcCenter.jsp";
+                            }
+
                         }
                     }
                 })
