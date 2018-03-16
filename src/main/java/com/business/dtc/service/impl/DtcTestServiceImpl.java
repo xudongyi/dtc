@@ -35,7 +35,7 @@ public class DtcTestServiceImpl implements DtcTestService {
 		// 1.中心最多人数>0
 		// 2.中心最多人数-（中心其它年龄最少人数总和）>0
 		int count = getCenterOtherGroupCount(service, testCenterBean.getId(), patient);
-		if (count > 0 && testCenterBean.getCenterLeft() > 0 && testCenterBean.getCenterMax() > count) {
+		if (testCenterBean.getCenterLeft() > 0 && count > 0 &&  testCenterBean.getCenterMax() > count) {
 			return true;
 		}
 		// 3.获取中心其他年龄的最少人数之和
