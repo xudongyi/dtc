@@ -24,7 +24,7 @@ public class DtcTestNumberBean extends ModelBean {
     @Column(name = "NUMBER", type = Type.数字整型, canNull = false)
 	private int number;
 
-	@Column(name = "GROUP_NAME", type = Type.数字整型, description = "A/B(只有当number_state=2时才会将A/B的值赋值)")
+	@Column(name = "GROUP_NAME", type = Type.变长文本, description = "A/B(当number_state=1时将A/B的值赋值)")
 	private String groupName;
 
 	/**
