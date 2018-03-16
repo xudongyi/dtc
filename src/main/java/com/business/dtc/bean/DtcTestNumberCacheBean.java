@@ -16,44 +16,55 @@ public class DtcTestNumberCacheBean extends ModelBean {
 	@Column(pk = true, name = "ID", type = Type.定长文本, description = "主键", canNull = false, size = 32, policy = "UUID")
 	private String id;
 
-	@Column(name = "GROUP_ID", type = Type.变长文本, canNull = false, size = 32)
-	private String groupId;
+	@Column(name = "NUMBER_ID", type = Type.变长文本, canNull = false, size = 32)
+	private String numberId;
 
 	@Column(name = "TEST_CENTER_ID", type = Type.变长文本, canNull = false, size = 32)
 	private String testCenterId;
 
-	@Column(name = "MIN_COUNT", type = Type.数字整型, description = "最小允许人数")
-	private int minCount;
+    @Column(name = "GROUP_NAME", type = Type.变长文本, size = 10)
+    private String group_name;
 
-	public String getId() {
-		return id;
-	}
+	@Column(name = "GROUP_ID", type = Type.变长文本, description = "",canNull = false, size = 32)
+	private String groupId;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getGroupId() {
-		return groupId;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setGroupId(String groupId) {
-		this.groupId = groupId;
-	}
+    public String getNumberId() {
+        return numberId;
+    }
 
-	public String getTestCenterId() {
-		return testCenterId;
-	}
+    public void setNumberId(String numberId) {
+        this.numberId = numberId;
+    }
 
-	public void setTestCenterId(String testCenterId) {
-		this.testCenterId = testCenterId;
-	}
+    public String getTestCenterId() {
+        return testCenterId;
+    }
 
-	public int getMinCount() {
-		return minCount;
-	}
+    public void setTestCenterId(String testCenterId) {
+        this.testCenterId = testCenterId;
+    }
 
-	public void setMinCount(int minCount) {
-		this.minCount = minCount;
-	}
+    public String getGroup_name() {
+        return group_name;
+    }
+
+    public void setGroup_name(String group_name) {
+        this.group_name = group_name;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
 }

@@ -11,6 +11,14 @@ import net.sf.rose.jdbc.service.Service;
 public interface DtcTestService {
 
     /**
+     * 根据centerId获取中心的基本信息
+     * @param service
+     * @param centerId
+     * @return
+     */
+    DtcCenterBean getCenter(Service service,String centerId);
+
+    /**
      * 检查该人员能够进入测试系统中
      * @param service
      * @param patient 病人
