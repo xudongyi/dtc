@@ -56,6 +56,7 @@
             remember:false
         },
         created:function(){
+            var that = this;
             if(getCookie("remember")){
                 console.log("initCache...............")
                 this.remember = true;
@@ -63,6 +64,12 @@
                 this.user.username = cacheUser.userName;
                 this.user.password = cacheUser.password;
             }
+            $(document).keydown(function(event){
+                //回车按键
+                if(event.keyCode == 13){
+                   that.login();
+                }
+            });
         },
         methods:{
             login:function(){

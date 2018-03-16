@@ -1,5 +1,6 @@
 package com.business.dtc.action;
 
+import com.business.dtc.service.DtcSysLogService;
 import com.business.dtc.service.DtcTestService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,4 +13,7 @@ public class BaseAction {
 
     @Autowired
     DtcTestService dtcTestService;
+
+    @Autowired
+    DtcSysLogService dtcSysLogService;
 }
