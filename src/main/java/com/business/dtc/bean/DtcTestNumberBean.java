@@ -21,6 +21,9 @@ public class DtcTestNumberBean extends ModelBean {
 	@Column(name = "TEST_ID", type = Type.变长文本, canNull = false, size = 32)
 	private String testId;
 
+    @Column(name = "NUMBER", type = Type.数字整型, canNull = false)
+	private int number;
+
 	@Column(name = "GROUP_NAME", type = Type.数字整型, description = "A/B(只有当number_state=2时才会将A/B的值赋值)")
 	private String groupName;
 
@@ -40,10 +43,10 @@ public class DtcTestNumberBean extends ModelBean {
 	@Column(name = "ASSIGN_TIME", type = Type.日期时间)
 	private Date assignTime;
 
-	@Column(name = "CENTER_ID", type = Type.变长文本, canNull = false, size = 32)
+	@Column(name = "CENTER_ID", type = Type.变长文本, size = 32)
 	private String centerId;
 
-	@Column(name = "PATIENT_ID", type = Type.变长文本, canNull = false, size = 32)
+	@Column(name = "PATIENT_ID", type = Type.变长文本, size = 32)
 	private String patientId;
 
 	public String getId() {
@@ -109,4 +112,12 @@ public class DtcTestNumberBean extends ModelBean {
 	public void setPatientId(String patientId) {
 		this.patientId = patientId;
 	}
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
 }

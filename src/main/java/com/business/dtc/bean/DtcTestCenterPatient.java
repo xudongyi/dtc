@@ -18,7 +18,7 @@ public class DtcTestCenterPatient extends ModelBean {
 	@Column(pk = true, name = "ID", type = Type.定长文本, description = "主键", canNull = false, size = 32, policy = "UUID")
 	private String id;
 
-	@Column(name = "patient_number", type = Type.变长文本, canNull = false, size = 10)
+	@Column(name = "PATIENT_NUMBER", type = Type.变长文本, canNull = false, size = 50)
 	private String patientNumber;
 
 	@Column(name = "CENTER_ID", type = Type.变长文本, canNull = false, size = 32)

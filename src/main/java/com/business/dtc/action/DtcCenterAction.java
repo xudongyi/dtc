@@ -19,7 +19,7 @@ import java.util.Date;
  * @description:中心端业务接口
  */
 @RestController
-@RequestMapping("dtc/center")
+@RequestMapping("center")
 public class DtcCenterAction extends  BaseAction {
 
 

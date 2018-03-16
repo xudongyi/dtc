@@ -16,7 +16,7 @@ import com.business.dtc.bean.DtcTestBean;
  * @description:
  */
 @RestController
-@RequestMapping("/dtc/test")
+@RequestMapping("test")
 public class DtcTestAction extends BaseAction{
 
     /**
