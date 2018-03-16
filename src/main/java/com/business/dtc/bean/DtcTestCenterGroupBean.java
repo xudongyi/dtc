@@ -16,17 +16,14 @@ public class DtcTestCenterGroupBean extends ModelBean {
 	@Column(pk = true, name = "ID", type = Type.定长文本, description = "主键", canNull = false, size = 32, policy = "UUID")
 	private String id;
 
-	@Column(name = "NUMBER_ID", type = Type.变长文本, canNull = false, size = 32)
-	private String numberId;
+	@Column(name = "GROUP_ID", type = Type.变长文本, canNull = false, size = 32)
+	private String groupId;
 
 	@Column(name = "TEST_CENTER_ID", type = Type.变长文本, canNull = false, size = 32)
 	private String testCenterId;
 
-	@Column(name = "GROUP_NAME", type = Type.变长文本, description = "分组A,B")
-	private String groupName;
-
-	@Column(name = "GROUP_ID", type = Type.变长文本, canNull = false, size = 32)
-	private String groupId;
+	@Column(name = "MIN_COUNT", type = Type.数字整型, description = "每个年龄段的最少人数")
+	private int minCount;
 
 	public String getId() {
 		return id;
@@ -36,12 +33,12 @@ public class DtcTestCenterGroupBean extends ModelBean {
 		this.id = id;
 	}
 
-	public String getNumberId() {
-		return numberId;
+	public String getGroupId() {
+		return groupId;
 	}
 
-	public void setNumberId(String numberId) {
-		this.numberId = numberId;
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
 	}
 
 	public String getTestCenterId() {
@@ -52,19 +49,11 @@ public class DtcTestCenterGroupBean extends ModelBean {
 		this.testCenterId = testCenterId;
 	}
 
-	public String getGroupName() {
-		return groupName;
+	public int getMinCount() {
+		return minCount;
 	}
 
-	public void setGroupName(String groupName) {
-		this.groupName = groupName;
-	}
-
-	public String getGroupId() {
-		return groupId;
-	}
-
-	public void setGroupId(String groupId) {
-		this.groupId = groupId;
+	public void setMinCount(int minCount) {
+		this.minCount = minCount;
 	}
 }

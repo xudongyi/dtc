@@ -27,6 +27,10 @@ public class DtcTestNumberBean extends ModelBean {
 	/**
 	 * (当数据被中心拿走时此时标示该记录已经被拿走,无法再次取出)
 	 */
+	public static int NUMBER_STATE_NOTASSIGN = 0;
+	public static int NUMBER_STATE_ISCACHE = 1;
+	public static int NUMBER_STATE_ISASSIGN = 2;
+	public static int NUMBER_STATE_WASTE = 3;
 	@Column(name = "NUMBER_STATE", type = Type.数字整型, description = "0-未分配 1-已缓存 2-已分配 3-已废弃")
 	private int numberState;
 
