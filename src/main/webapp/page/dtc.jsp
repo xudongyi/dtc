@@ -23,7 +23,6 @@
             left: 0;
             top: 58px;
             background: #f8f8f8;
-            border-bottom: 1px solid #d1d7d8;
         }
 
         .level2 li {
@@ -64,8 +63,6 @@
             </ul>
             <div class="user">
                 <div class="left-button">
-                    <img src="${ctx}/images/dtc/a-xgmm.png" alt="" />
-                    <img src="${ctx}/images/dtc/b-help.png" alt="" />
                     <img src="${ctx}/images/dtc/c-tuic.png" alt="" @click="loginOut"/>
                 </div>
 
@@ -88,7 +85,7 @@
         el: "#app",
         data: {
             tabIndex: 0,
-            tabIndex2: 0,
+            tabIndex2: -1,
             tabLevel: 0,
             dateTime: new Date().Format("yyyy-MM-dd hh:mm:ss"),
             tabList: [],
@@ -123,7 +120,7 @@
                 id: 4
             },{
                 name: "中心维护",
-                url: "http://www.baidu.com",
+                url: "/page/center/centerConfig.jsp",
                 img: "${ctx}/images/dtc/4-cbbj.png",
                 parent_id: 4,
                 id: 41
@@ -179,23 +176,32 @@
         methods: {
             levelOneClick: function(url, index, level) {
                 this.clearLevel1();
-                this.tabIndex2 = 0;
                 this.tabIndex = index;
                 if(level.length > 0) {
                     Vue.set(this.tabList[index], "show", true);
                     this.tabLevel = 2;
-                    this.initSrc = this.tabList[index].level2[0].url+"?d="+new Date().getTime();
                 } else {
+                    if(url.indexOf("http://")>-1||url.indexOf("https://")>-1){
+                        this.initSrc = url+"?d="+new Date().getTime();
+                    }else if(url!=""){
+                        this.initSrc = "${ctx}"+url+"?d="+new Date().getTime();
+                    }else{
+                        alert("url定义不正确!请检查配置")
+                    }
                     this.tabLevel = 1;
                     Vue.set(this.tabList[index], "show", false);
-                    this.initSrc = url+"?d="+new Date().getTime();
                 }
             },
             levelTwoClick: function(url, index) {
                 this.tabIndex2 = index;
-                this.initSrc = url;
+                if(url.indexOf("http://")>-1||url.indexOf("https://")>-1){
+                    this.initSrc = url+"?d="+new Date().getTime();
+                }else{
+                    this.initSrc = "${ctx}"+url+"?d="+new Date().getTime();
+                }
             },
             clearLevel1: function() {
+                this.tabIndex2 = -1;
                 for(var i = 0; i < this.tabList.length; i++) {
                     if(this.tabList[i].show) {
                         Vue.set(this.tabList[i], "show", false);
