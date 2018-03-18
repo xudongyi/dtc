@@ -45,6 +45,7 @@ public class UserAction {
         ResponseData data =  ResponseData.buildResponseData(200,"正常登录",bean);
         UserBean user = new UserBean();
         user.setUserName(bean.getRealName());
+        user.setUserID(bean.getRealName());
         user.setLastLoginTime(DateFormat.getTimestamp());
         request.getSession().setAttribute(ConstantCode.USER_BEAN_NAME,user);
         request.getSession().setAttribute("user",bean);
