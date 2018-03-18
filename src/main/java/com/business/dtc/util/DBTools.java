@@ -9,6 +9,7 @@ import net.sf.rose.jdbc.dao.MapDAO;
 import net.sf.rose.jdbc.query.BeanSQL;
 import net.sf.rose.jdbc.query.MapSQL;
 import net.sf.rose.jdbc.service.Service;
+import org.apache.poi.ss.formula.functions.T;
 
 /**
  * @创建人: xudy
@@ -158,6 +159,14 @@ public class DBTools {
 		query.createInsertSql(bean);
 		return dao.update();
 	}
+
+    public static int[] bacthInsertBean(Service service, Class<?> entity,List<?> list) {
+        BeanDAO dao = new BeanDAO(service);
+        BeanSQL query = dao.getQuerySQL();
+        query.setEntityClass(entity);
+        query.createBatchInsertSql(list);
+        return dao.batchUpdate();
+    }
 
 	public static int deleteBean(Service service, Object bean) {
 		BeanDAO dao = new BeanDAO(service);

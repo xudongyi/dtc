@@ -86,16 +86,16 @@
         data: {
             tabIndex: 0,
             tabIndex2: -1,
-            tabLevel: 0,
+            tabLevel: 1,
             dateTime: new Date().Format("yyyy-MM-dd hh:mm:ss"),
             tabList: [],
-            initSrc: "",
+            initSrc: "${ctx}/page/center/test.jsp",
         },
         created: function() {
             //获取顶部菜单数据
             var json = [{
                 name: "试验初始化",
-                url: "http://www.baidu.com",
+                url: "/page/center/test.jsp",
                 img: "${ctx}/images/dtc/1-GISdt.png",
                 parent_id: "",
                 id: 1
@@ -158,13 +158,6 @@
             //首页页面渲染
             //判断首页默认展示的是一级还是二级
             this.tabList = level1;
-            if(this.tabList[0].level2 > 0) {
-                this.tabLevel = 2;
-                this.initSrc = this.tabList.level2[0].url;
-            } else {
-                this.tabLevel = 1;
-                this.initSrc = this.tabList[0].url;
-            }
         },
         mounted: function() {
             //初始化时间

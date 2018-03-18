@@ -73,4 +73,12 @@ public interface DtcTestService {
 	 */
 	boolean getTestNumberCacheAndAssign(Service service, String testId, String testCenterId, DtcTestCenterPatient patient);
 
+    /**
+     * 生成随机号
+     * @param service
+     * @param testId
+     * @return
+     */
+	boolean createTestNumbers(Service service,String testId,int counts);
+
 }

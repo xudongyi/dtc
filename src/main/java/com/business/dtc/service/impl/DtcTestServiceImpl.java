@@ -30,7 +30,29 @@ public class DtcTestServiceImpl implements DtcTestService {
 		return bean;
 	}
 
-	@Override
+    @Override
+    public boolean createTestNumbers(Service service, String testId,int counts) {
+	    List<Integer> result = new ArrayList<>();
+	    for(int i=1;i<=counts;i++){
+            result.add(i);
+        }
+        Collections.shuffle(result);
+        List<DtcTestNumberBean> numberBeanList = new ArrayList<>();
+        for(Integer number : result){
+            DtcTestNumberBean numberBean = new DtcTestNumberBean();
+            numberBean.setNumber(number);
+            numberBean.setNumberState(0);
+            numberBean.setTestId(testId);
+            numberBeanList.add(numberBean);
+        }
+        int[] bacth = DBTools.bacthInsertBean(service,DtcTestNumberBean.class,numberBeanList);
+        if(bacth.length==numberBeanList.size()){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
 	public boolean checkPermission(Service service, DtcTestCenterPatient patient, DtcTestCenterBean testCenterBean) {
 		// 1.中心最多人数>0
 		// 2.中心最多人数-（中心其它年龄最少人数总和）>0
