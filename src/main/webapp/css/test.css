@@ -1,0 +1,46 @@
+.red{
+    color:red
+}
+#main table{
+    width:80%;
+    height:100%;
+    margin: auto;
+    margin-top: 10px;
+}
+#main table tr{
+    margin:10px 0;
+    height:45px;
+}
+#main table tr td:nth-of-type(2n+1){
+    text-align: right;
+}
+input,textarea{
+    margin-left:10px;
+}
+textarea{
+    height: 65px;
+    width: 298px;
+}
+#main table tr:first-of-type input{
+    width:300px;
+    height:30px;
+
+}
+input[type=checkbox]{
+    margin-bottom: 22px;
+}
+.groupmin{
+    height: 25px;
+    width: 217px;
+}
+a{
+    display: block;
+    width:249px;
+    height:48px;
+    background: #4FAAA0;
+    color:#fff;
+    text-align: center;
+    text-decoration: none;
+    line-height:48px;
+    border-radius: 4px;
+}

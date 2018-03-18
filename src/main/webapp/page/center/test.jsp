@@ -14,70 +14,144 @@
     <title>初始化</title>
     <script src="${ctx}/js/vue.min.js"></script>
     <script src="${ctx}/js/jquery-1.9.1.min.js"></script>
+    <link rel="stylesheet" href="${ctx}/css/test.css">
 
     <style>
-        body,html{
+        body, html {
             margin: 0;
             padding: 0;
+            background: #F3F2F0;
         }
-        table tr td:first-of-type{
+
+        table tr td:first-of-type {
 
         }
     </style>
 </head>
 <body>
-    <div id="main">
-        <table>
-            <tr>
-                <td>试验标题</td>
-                <td><input type="text" name="name"></td>
-                <td>中心允许最多人数</td>
-                <td><input type="text" name="name"></td>
-            </tr>
-            <tr>
-                <td>试验描述</td>
-                <td><input type="text" name="name"></td>
-                <td>中心年龄区组最少人数</td>
-                <td><input type="text" name="name"></td>
-            </tr>
-            <tr>
-                <td>试验人数</td>
-                <td colspan="3"><input type="text" name="name"></td>
-            </tr>
-            <tr>
-                <td>试验中心</td>
-                <td colspan="3"><input type="text" name="name"></td>
-            </tr>
-        </table>
-    </div>
+<div id="main">
+    <table>
+        <tr>
+            <td>试验标题<span class="red">*</span></td>
+            <td><input type="text" name="name" v-model="data.name"></td>
+            <td>中心允许最多人数 <span class="red">*</span></td>
+            <td><input type="text" name="centerMax" v-model="data.centerMax"></td>
+        </tr>
+        <tr>
+            <td>试验描述</td>
+            <td><textarea v-model="data.description"></textarea></td>
+            <td>中心年龄区组最少人数<span class="red">*</span></td>
+            <td colspan="3">
+                <div v-for="(item,index) in groups">
+                    <input type="checkbox" :id="'group'+index" name="group" :value="item.id" v-model="data.group">
+                    <lable :for="'group'+index"> {{item.groupName}}</lable>
+                    <input  :id="'min'+index" class="groupmin" type="text" name="name">
+                </div>
+
+            </td>
+
+        </tr>
+        <tr>
+            <td>试验人数<span class="red">*</span></td>
+            <td colspan="3">
+                <input style="height: 30px;width: 300px" type="text" name="name" v-model="data.testCount">
+            </td>
+        </tr>
+        <tr>
+            <td>试验中心<span class="red">*</span></td>
+            <td colspan="2">
+                <div v-for="(item,index) in centers">
+                    <input type="checkbox" :id="'center'+index" name="center" :value="item.id" v-model="data.center">
+                    <lable :for="'center'+index">{{item.centerName}}</lable>
+                </div>
+            </td>
+            <td>
+                <a href="javascript:;" @click="saveTest">实验初始化</a>
+            </td>
+        </tr>
+    </table>
+</div>
 
 </body>
 
 <script>
-/*    json
-    groupIds
-    centerIds
-    min
-    centerMax*/
     var vm = new Vue({
         el: "#main",
         data: {
+            centers: [],
+            groups: [],
+            //数据
+            data: {
+                name: "",
+                centerMax: "",
+                testCount: "",
+                group:[],
+                center:[],
+                min:[]
+            }
+        },
+        created: function () {
+            var that = this;
+            $.ajax({
+                url: "${ctx}/test/getCenterList.do",
+                success: function (data) {
+                    that.centers = data;
+                }
+
+            })
+
+            $.ajax({
+                url: "${ctx}/test/getAgeGroupList.do",
+                success: function (data) {
+                    that.groups = data;
+                }
+
+            })
 
         },
-        created: function() {},
-        methods:{
-            saveTest:function(){
-                $.ajax({
-                    url:"${ctx}/test/createTest.do",
-                    data:{
-                        json:"",
-                        groupIds:"",
-                        centerIds:"",
-                        min:"",
-                        centerMax:"",
-                    },
-                    success:function(data){
+        methods: {
+            saveTest: function () {
+                var that = this;
+                //校验数据
+                console.log(this.data.group)
+                if (this.data.name == "" || this.data.centerMax == "" ||
+                    this.data.testCount == "") {
+                    alert("还有必填项尚未填写");
+                    return;
+                }
+                if(this.data.group.length==0 || this.data.center.length==0){
+                    alert("区组或试验中心未选择,请检查数据!");
+                    return;
+                }
+                for(var i=0;i<this.data.group.length;i++){
+                    for(var j = 0;j<this.groups.length;j++){
+                        if(this.data.group[i]==this.groups[j].id){
+                            if($("#min"+i).val()==""){
+                                alert("选择的年龄段没有设置最小年龄!");
+                                return;
+                            }else{
+                               this.data.min.push($("#min"+i).val())
+                            }
+                        }
+                    }
+                }
 
+                $.ajax({
+                    url: "${ctx}/test/createTest.do",
+                    type:"post",
+                    data: {
+                        json: JSON.stringify(that.data),
+                        groupIds: that.data.group.join(","),
+                        centerIds: that.data.center.join(","),
+                        min: that.data.min.join(","),
+                        centerMax: that.data.centerMax
+                    },
+                    success: function (data) {
+                        if(data){
+                            alert("添加成功!");
+                        }else{
+                            alert("添加失败!")
+                        }
                     }
 
                 })

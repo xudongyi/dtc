@@ -50,6 +50,7 @@
             <input name="id" class="mini-hidden"/>
             <input name="isDeleted" class="mini-hidden" value="1"/>
             <input name="userState" class="mini-hidden" value="1"/>
+            <input name="role" class="mini-hidden" value="2"/>
             <table>
                 <tr>
                     <td width="110">中心编号:</td>

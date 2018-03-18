@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.business.dtc.bean.*;
 import net.sf.rose.jdbc.DBUtils;
 import net.sf.rose.jdbc.KeyGenerator;
 import net.sf.rose.jdbc.service.Service;
@@ -14,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.business.dtc.bean.DtcTestBean;
-import com.business.dtc.bean.DtcTestCenterBean;
-import com.business.dtc.bean.DtcTestCenterGroupBean;
 import com.business.dtc.util.DBTools;
 
 
@@ -40,6 +38,18 @@ public class DtcTestAction extends BaseAction{
 
 
         return null;
+    }
+
+    @RequestMapping("/getCenterList.do")
+    public List<DtcCenterBean> getCenterList(Service service,HttpServletRequest request){
+        List<DtcCenterBean> list = DBTools.getBeanList(service,DtcCenterBean.class,"SELECT * from DTC_CENTER where role=2");
+        return list;
+    }
+
+    @RequestMapping("/getAgeGroupList.do")
+    public List<DtcAgeGroupBean> getAgeGroupList(Service service,HttpServletRequest request){
+        List<DtcAgeGroupBean> list = DBUtils.getBeanList(service,DtcAgeGroupBean.class);
+        return list;
     }
 
     /**
@@ -88,6 +98,7 @@ public class DtcTestAction extends BaseAction{
                     int [] re = DBTools.bacthInsertBean(service,DtcTestCenterGroupBean.class,groupBeanList);
                     if(re.length==groupBeanList.size()){
                         System.out.println("新增成功");
+                        return true;
 
                     }else{
                         System.out.println("新增中心年龄表失败");
