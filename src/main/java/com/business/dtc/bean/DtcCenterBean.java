@@ -10,7 +10,7 @@ import net.sf.rose.jdbc.bean.annotation.Type;
  * @date: 2018/03/13 19:20
  * @description:测试中心
  */
-@Table(name = "DTC_CENTER")
+@Table(name = "DTC_CENTER",deleteField = "isDeleted")
 public class DtcCenterBean extends ModelBean {
 
 	@Column(pk = true, name = "ID", type = Type.定长文本, description = "主键", canNull = false, size = 32, policy = "UUID")
