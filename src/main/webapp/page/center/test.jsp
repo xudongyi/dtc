@@ -70,6 +70,7 @@
             </td>
             <td>
                 <a v-if="showButton" href="javascript:;" @click="saveTest">实验初始化</a>
+                <a v-if="!showButton" href="javascript:;" style="background: #ac2925">试验正在进行中。。。</a>
             </td>
         </tr>
     </table>
@@ -175,6 +176,7 @@
                     success: function (data) {
                         if(data){
                             alert("添加成功!");
+                            location.reload();
                         }else{
                             alert("添加失败!")
                         }
