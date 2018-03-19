@@ -25,6 +25,10 @@ public class DtcTestBean extends ModelBean {
 	@Column(name = "DESCRIPTION", type = Type.变长文本, size = 200)
 	private String description;
 
+	public static int DOING = 1;
+
+	public static int FINIESH = 2;
+
 	@Column(name = "STATE", type = Type.数字整型, canNull = false, description = "1-正在进行 2-已结束")
 	private int state;
 

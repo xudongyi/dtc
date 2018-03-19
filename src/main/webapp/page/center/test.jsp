@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="${ctx}/css/test.css">
 
     <style>
+        [v-cloak]{
+            display: none;
+        }
         body, html {
             margin: 0;
             padding: 0;
@@ -29,7 +32,7 @@
     </style>
 </head>
 <body>
-<div id="main">
+<div id="main" v-cloak>
     <table>
         <tr>
             <td>试验标题<span class="red">*</span></td>
@@ -66,7 +69,7 @@
                 </div>
             </td>
             <td>
-                <a href="javascript:;" @click="saveTest">实验初始化</a>
+                <a v-if="showButton" href="javascript:;" @click="saveTest">实验初始化</a>
             </td>
         </tr>
     </table>
@@ -88,7 +91,8 @@
                 group:[],
                 center:[],
                 min:[]
-            }
+            },
+            showButton:true
         },
         created: function () {
             var that = this;
@@ -104,6 +108,28 @@
                 url: "${ctx}/test/getAgeGroupList.do",
                 success: function (data) {
                     that.groups = data;
+                }
+
+            })
+            $.ajax({
+                url: "${ctx}/test/currentTest.do",
+                success: function (data) {
+                    if(data){
+                        that.showButton = false;
+                        that.groups = data.groups;
+                        that.centers = data.centers;
+                        that.data.name = data.name;
+                        that.data.centerMax = data.centerMax;
+                        that.data.testCount = data.testCount;
+                        that.data.group = data.group;
+                        that.data.center = data.center;
+                        for(var i = 0;i<data.min.length;i++){
+                            $("#min"+i).val(data.min[i]);
+                        }
+                        $("input,textarea").attr("disabled",true);
+
+                    }
+
                 }
 
             })

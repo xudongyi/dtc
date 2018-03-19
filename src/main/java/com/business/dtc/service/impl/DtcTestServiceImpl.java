@@ -67,7 +67,7 @@ public class DtcTestServiceImpl implements DtcTestService {
 	@Override
 	public DtcTestBean getCurrentTest(Service service) {
 		String sql = "select * from DTC_TEST where state=?";
-		DtcTestBean test = DBTools.getBean(service, DtcTestBean.class, sql, 1);
+		DtcTestBean test = DBTools.getBean(service, DtcTestBean.class, sql, DtcTestBean.DOING);
 		return test;
 	}
 

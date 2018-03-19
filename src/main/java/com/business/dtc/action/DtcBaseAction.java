@@ -25,7 +25,7 @@ import com.business.dtc.util.DBTools;
 public class DtcBaseAction extends  BaseAction{
 
     /**
-     * 年龄列表
+     * 年龄分组列表
      * @param service
      * @param request
      */
@@ -35,7 +35,7 @@ public class DtcBaseAction extends  BaseAction{
     }
 
     /**
-     * 保存年龄
+     * 保存分组年龄
      * @param service
      * @param group
      */

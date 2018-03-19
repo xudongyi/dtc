@@ -1,7 +1,9 @@
 package com.business.dtc.action;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,18 +29,7 @@ import com.business.dtc.util.DBTools;
 @RequestMapping("test")
 public class DtcTestAction extends BaseAction{
 
-    /**
-     * 获取当前正在进行的测试
-     * @param service
-     * @param request
-     * @return
-     */
-    @RequestMapping("/currentTest.do")
-    public DtcTestBean currentTest(Service service, HttpServletRequest request){
 
-
-        return null;
-    }
 
     @RequestMapping("/getCenterList.do")
     public List<DtcCenterBean> getCenterList(Service service,HttpServletRequest request){
@@ -50,6 +41,65 @@ public class DtcTestAction extends BaseAction{
     public List<DtcAgeGroupBean> getAgeGroupList(Service service,HttpServletRequest request){
         List<DtcAgeGroupBean> list = DBUtils.getBeanList(service,DtcAgeGroupBean.class);
         return list;
+    }
+
+    /**
+     * 获取当前正在进行的测试
+     * @param service
+     * @param request
+     * @return
+     */
+    @RequestMapping("/currentTest.do")
+    public Map<String,Object> currentTest(Service service, HttpServletRequest request){
+        DtcTestBean current = dtcTestService.getCurrentTest(service);
+        if(current!=null){
+            //当前全部年龄组
+            List<DtcAgeGroupBean> groups = DBUtils.getBeanList(service,DtcAgeGroupBean.class);
+            Map<String,Object> condition = new HashMap<>();
+            condition.put("testId",current.getId());
+            List<DtcTestCenterBean> testCenters = DBUtils.getBeanList(service,DtcTestCenterBean.class,condition);
+            String queryId = "";
+            String centerId = "";
+
+            List<String> groupR = new ArrayList<>() ;
+            List<Integer> minR = new ArrayList<>();
+            List<String> centerR = new ArrayList<>();
+            for(DtcTestCenterBean bean : testCenters){
+                centerId+="'"+bean.getCenterId()+"',";
+                centerR.add(bean.getCenterId());
+            }
+            centerId = centerId.substring(0,centerId.length()-1);
+            List<DtcCenterBean> centers = DBTools.getBeanList(service,DtcCenterBean.class,
+            "select * from DTC_CENTER where ID in("+centerId+")");
+            String sql = "select * from DTC_TEST_CENTER_GROUP where TEST_CENTER_ID in('"+testCenters.get(0).getId()+"')";
+            List<DtcTestCenterGroupBean> groupBeanList = DBTools.getBeanList(service,DtcTestCenterGroupBean.class,sql);
+            List<DtcAgeGroupBean> resultGroups = new ArrayList<>();
+
+            for(DtcTestCenterGroupBean group : groupBeanList){
+                for(DtcAgeGroupBean bean : groups){
+                    if(group.getGroupId().equals(bean.getId())){
+                        resultGroups.add(bean);
+                        break;
+                    }
+                }
+                groupR.add(group.getGroupId());
+                minR.add(group.getMinCount());
+
+            }
+
+            Map<String,Object> result = new HashMap<>();
+            result.put("name",current.getName());
+            result.put("testCount",current.getTestCount());
+            result.put("centerMax",testCenters.get(0).getCenterMax());
+            result.put("centers",centers);
+            result.put("groups",resultGroups);
+            result.put("group",groupR);
+            result.put("center",centerR);
+            result.put("min",minR);
+            return result;
+        }
+
+        return null;
     }
 
     /**
@@ -65,6 +115,8 @@ public class DtcTestAction extends BaseAction{
         //1.检查是否存在对应正在进行的实验
         if(current==null){
             //1.新增任务
+            //正在进行中
+            bean.setState(DtcTestBean.DOING);
             int i = DBUtils.update(service,bean);
             //2.产生随机号
             boolean createFlag = dtcTestService.createTestNumbers(service,bean.getId(),bean.getTestCount());
