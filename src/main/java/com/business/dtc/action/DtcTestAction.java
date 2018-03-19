@@ -10,9 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import com.business.dtc.bean.*;
 import net.sf.rose.jdbc.DBUtils;
 import net.sf.rose.jdbc.KeyGenerator;
+import net.sf.rose.jdbc.PageBean;
 import net.sf.rose.jdbc.service.Service;
 import net.sf.rose.util.StringUtil;
 
+import net.sf.rose.web.utils.WebUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -168,5 +170,34 @@ public class DtcTestAction extends BaseAction{
         }
 
         return false;
+    }
+
+    @RequestMapping("groupDetail.do")
+    public PageBean groupDetail (Service service, HttpServletRequest request){
+        PageBean page = WebUtils.getPageBean(request);
+        Map<String,Object> params = WebUtils.getRequestData(request);
+        DtcTestBean test = dtcTestService.getCurrentTest(service);
+        StringBuilder sql = new StringBuilder();
+        sql.append("select t1.*,t2.NUMBER,t2.GROUP_NAME,t2.ASSIGN_TIME,t4.CENTER_NAME from dtc_test_center_patient t1")
+            .append(" left join dtc_test_number t2 on t1.ID = t2.PATIENT_ID ")
+            .append(" left join dtc_test_center t3 on t1.TEST_CENTER_ID = t3.ID ")
+            .append(" left join dtc_center t4 on t3.CENTER_ID = t4.ID ")
+            .append(" where t2.TEST_ID=?");
+        List<Object> condition = new ArrayList<>();
+        condition.add(test.getId());
+        if(params.containsKey("beginTime")){
+            sql.append(" AND t2.ASSIGN_TIME>=?");
+            condition.add(params.get("beginTime"));
+        }
+        if(params.containsKey("endTime")){
+            sql.append(" AND t2.ASSIGN_TIME<=?");
+            condition.add(params.get("endTime"));
+        }
+        if(params.containsKey("centerId")){
+            sql.append(" AND t4.ID=?");
+            condition.add(params.get("centerId"));
+        }
+        page = DBTools.getDataList(service,sql.toString(),page,condition);
+        return page;
     }
 }

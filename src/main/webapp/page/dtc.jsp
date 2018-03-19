@@ -89,26 +89,26 @@
             tabLevel: 1,
             dateTime: new Date().Format("yyyy-MM-dd hh:mm:ss"),
             tabList: [],
-            initSrc: "${ctx}/page/center/test.jsp",
+            initSrc: "${ctx}/page/dtc/test.jsp",
         },
         created: function() {
             //获取顶部菜单数据
             var json = [{
                 name: "试验初始化",
-                url: "/page/center/test.jsp",
+                url: "/page/dtc/test.jsp",
                 img: "${ctx}/images/dtc/1-GISdt.png",
                 parent_id: "",
                 id: 1
             }, {
                 name: "试验分组详情",
-                url: "http://www.baidu.com",
+                url: "/page/dtc/testGroupDetail.jsp",
                 img: "${ctx}/images/dtc/2-jcsj.png",
                 parent_id: "",
                 id: 2
 
             }, {
                 name: "试验进展报告",
-                url: "http://www.baidu.com",
+                url: "/page/dtc/testProcess.jsp",
                 img: "${ctx}/images/dtc/3-tjfx.png",
                 parent_id: "",
                 id: 3
@@ -120,19 +120,19 @@
                 id: 4
             },{
                 name: "中心维护",
-                url: "/page/center/centerConfig.jsp",
+                url: "/page/dtc/centerConfig.jsp",
                 img: "${ctx}/images/dtc/4-cbbj.png",
                 parent_id: 4,
                 id: 41
             },{
                 name: "年龄组维护",
-                url: "http://www.baidu.com",
+                url: "/page/dtc/ageConfig.jsp",
                 img: "${ctx}/images/dtc/4-cbbj.png",
                 parent_id: 4,
                 id: 42
             },{
                 name: "系统设置",
-                url: "http://www.baidu.com",
+                url: "/page/dtc/sysConfig.jsp",
                 img: "${ctx}/images/dtc/6-xtgl.png",
                 parent_id: "",
                 id: 5

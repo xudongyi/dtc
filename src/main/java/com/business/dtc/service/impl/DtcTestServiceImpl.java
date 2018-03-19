@@ -86,7 +86,7 @@ public class DtcTestServiceImpl implements DtcTestService {
 		DtcAgeGroupBean group = DBTools.getBean(service, DtcAgeGroupBean.class, sql, age, age);
 		if (group != null) {
 			// 2.根据组号,查询对应其他所有组的成员总和
-			Map<String, Object> result = DBTools.getData(service, "select SUM(min_count) as sums from dtc_test_center_group  where id<>?", group.getId());
+			Map<String, Object> result = DBTools.getData(service, "select SUM(min_count) as sums from dtc_test_center_group where group_id<>? and test_center_id=?", group.getId(),testCenterId);
 			if (result.size() > 0 && Integer.parseInt(result.get("sums").toString()) > 0) {
 				return Integer.parseInt(result.get("sums").toString());
 			} else {
