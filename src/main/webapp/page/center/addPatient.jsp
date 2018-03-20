@@ -138,7 +138,9 @@
         el: "#main",
         data: {
             info:{total:[0,0],centerInfo:{centerMax:0}},
-            formData:{}
+            formData:{
+
+            }
         },
         created: function () {
             var that = this;
@@ -201,8 +203,22 @@
                 return check;
             },
             addPatient:function(){
+                var that = this;
                 if(this.checkInput()){
+                    this.formData.centerId = '${sessionScope.get("user").id}';
+                    this.formData.birthday =  new Date(this.formData.birthday.replace(/-/,"/"));
+                    $.ajax({
+                        url:"${ctx}/center/addPatient.do",
+                        type:"post",
+                        data:that.formData,
+                        success:function(data){
+                            if(data){
+                                alert("添加成功!");
+                            }else{
 
+                            }
+                        }
+                    })
                 }else{
                     alert("必填项没有填写")
                 }

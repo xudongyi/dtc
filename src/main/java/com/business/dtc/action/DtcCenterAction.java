@@ -82,7 +82,7 @@ public class DtcCenterAction extends  BaseAction {
      * @param patient
      */
     @RequestMapping("addPatient.do")
-    public void addPatient(Service service, @ModelAttribute DtcTestCenterPatientBean patient){
+    public Map<String,Object> addPatient(Service service, @ModelAttribute DtcTestCenterPatientBean patient){
         //1.获取正在进行的试验
         DtcTestBean testBean = dtcTestService.getCurrentTest(service);
         if(testBean!=null){
@@ -103,6 +103,7 @@ public class DtcCenterAction extends  BaseAction {
 
             }
         }
+        return null;
     }
 
     /**
