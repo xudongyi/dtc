@@ -263,8 +263,7 @@ public class DtcTestAction extends BaseAction{
                 re.add(o);
             }
             body.add(re);
-            result.put("header",header);
-            result.put("body",body);
+
             //AB组统计
             for(String groupName : new String[]{"A","B"}){
                 List<Object> singleData = new ArrayList<>();
@@ -284,10 +283,11 @@ public class DtcTestAction extends BaseAction{
                     totalCount+=Integer.parseInt(counts.get("counts").toString());
                 }
                 singleData.add(totalCount);
-                groupBottom.add(singleData);
+                body.add(singleData);
 
             }
-            result.put("groupBottom",groupBottom);
+            result.put("header",header);
+            result.put("body",body);
             return result;
         }
         return null;
