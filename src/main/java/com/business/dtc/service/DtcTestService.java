@@ -1,11 +1,9 @@
 package com.business.dtc.service;
 
-import net.sf.rose.jdbc.service.Service;
+import java.util.List;
 
-import com.business.dtc.bean.DtcCenterBean;
-import com.business.dtc.bean.DtcTestBean;
-import com.business.dtc.bean.DtcTestCenterBean;
-import com.business.dtc.bean.DtcTestCenterPatient;
+import com.business.dtc.bean.*;
+import net.sf.rose.jdbc.service.Service;
 
 /**
  * @author: xudy
@@ -33,7 +31,7 @@ public interface DtcTestService {
 	 *            测试中心信息
 	 * @return
 	 */
-	boolean checkPermission(Service service, DtcTestCenterPatient patient, DtcTestCenterBean testCenterBean);
+	boolean checkPermission(Service service, DtcTestCenterPatientBean patient, DtcTestCenterBean testCenterBean);
 
 	/**
 	 * 获取当前正在进行的测试
@@ -61,7 +59,7 @@ public interface DtcTestService {
 	 * @param patient
 	 * @return
 	 */
-	int getCenterOtherGroupCount(Service service, String testCenterId, DtcTestCenterPatient patient);
+	int getCenterOtherGroupCount(Service service, String testCenterId, DtcTestCenterPatientBean patient);
 
 	/**
 	 * 获取中心对应年龄段的缓存信息并同时将缓存中的号分配给该病人
@@ -71,7 +69,7 @@ public interface DtcTestService {
 	 * @param patient
 	 * @return
 	 */
-	boolean getTestNumberCacheAndAssign(Service service, String testId, String testCenterId, DtcTestCenterPatient patient);
+	boolean getTestNumberCacheAndAssign(Service service, String testId, String testCenterId, DtcTestCenterPatientBean patient);
 
     /**
      * 生成随机号
@@ -80,5 +78,9 @@ public interface DtcTestService {
      * @return
      */
 	boolean createTestNumbers(Service service,String testId,int counts);
+
+	List<DtcCenterBean> getCenters(Service Service);
+
+	List<DtcAgeGroupBean> getAgeGroups(Service service);
 
 }

@@ -2,7 +2,7 @@ package com.business.dtc.action;
 
 import com.business.dtc.bean.DtcTestBean;
 import com.business.dtc.bean.DtcTestCenterBean;
-import com.business.dtc.bean.DtcTestCenterPatient;
+import com.business.dtc.bean.DtcTestCenterPatientBean;
 import com.business.dtc.util.AgeUtil;
 import net.sf.rose.jdbc.service.Service;
 import net.sf.rose.util.DateFormat;
@@ -53,7 +53,7 @@ public class DtcCenterAction extends  BaseAction {
      * @param patient
      */
     @RequestMapping("addPatient.do")
-    public void addPatient(Service service, @ModelAttribute DtcTestCenterPatient patient){
+    public void addPatient(Service service, @ModelAttribute DtcTestCenterPatientBean patient){
         //1.获取正在进行的试验
         DtcTestBean testBean = dtcTestService.getCurrentTest(service);
         if(testBean!=null){

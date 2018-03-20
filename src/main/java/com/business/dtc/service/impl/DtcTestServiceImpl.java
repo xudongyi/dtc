@@ -31,6 +31,18 @@ public class DtcTestServiceImpl implements DtcTestService {
 	}
 
     @Override
+    public List<DtcAgeGroupBean> getAgeGroups(Service service) {
+        List<DtcAgeGroupBean> list = DBUtils.getBeanList(service,DtcAgeGroupBean.class);
+        return list;
+    }
+
+    @Override
+    public List<DtcCenterBean> getCenters(Service service) {
+        List<DtcCenterBean> list = DBTools.getBeanList(service,DtcCenterBean.class,"select * from DTC_CENTER WHERE IS_DELETED=1 AND ROLE=2");
+        return list;
+	}
+
+    @Override
     public boolean createTestNumbers(Service service, String testId,int counts) {
 	    List<Integer> result = new ArrayList<>();
 	    for(int i=1;i<=counts;i++){
@@ -53,7 +65,7 @@ public class DtcTestServiceImpl implements DtcTestService {
     }
 
     @Override
-	public boolean checkPermission(Service service, DtcTestCenterPatient patient, DtcTestCenterBean testCenterBean) {
+	public boolean checkPermission(Service service, DtcTestCenterPatientBean patient, DtcTestCenterBean testCenterBean) {
 		// 1.中心最多人数>0
 		// 2.中心最多人数-（中心其它年龄最少人数总和）>0
 		int count = getCenterOtherGroupCount(service, testCenterBean.getId(), patient);
@@ -79,7 +91,7 @@ public class DtcTestServiceImpl implements DtcTestService {
 	}
 
 	@Override
-	public int getCenterOtherGroupCount(Service service, String testCenterId, DtcTestCenterPatient patient) {
+	public int getCenterOtherGroupCount(Service service, String testCenterId, DtcTestCenterPatientBean patient) {
 		int age = patient.getAge();
 		// 1.首先查询年龄是属于哪一组
 		String sql = "select * from dtc_age_group where MIN_AGE<=? and MAX_AGE>=?";
@@ -98,7 +110,7 @@ public class DtcTestServiceImpl implements DtcTestService {
 	}
 
 	@Override
-	public boolean getTestNumberCacheAndAssign(Service service, String testId, String testCenterId, DtcTestCenterPatient patient) {
+	public boolean getTestNumberCacheAndAssign(Service service, String testId, String testCenterId, DtcTestCenterPatientBean patient) {
 		int age = patient.getAge();
 		// 1.首先查询年龄是属于哪一组
 		String sql = "select * from dtc_age_group where MIN_AGE<=? and MAX_AGE>=?";
@@ -124,6 +136,8 @@ public class DtcTestServiceImpl implements DtcTestService {
 				patient.setNumberId(cacheBean.getNumberId());
 				DtcCenterBean center = getCenter(service, patient.getCenterId());
 				patient.setPatientNumber(center.getCenterNo() + DateFormat.format(new Date(), DateFormat.DATE_FORMAT_4));
+				//对应分组
+                patient.setGroupId(group.getId());
 				int i = DBUtils.update(service, patient);
 				if (i > 0) {
 					// 1)删除缓存中对应记录

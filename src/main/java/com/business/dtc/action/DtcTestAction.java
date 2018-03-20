@@ -1,9 +1,6 @@
 package com.business.dtc.action;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -172,6 +169,12 @@ public class DtcTestAction extends BaseAction{
         return false;
     }
 
+    /**
+     * 试验分组详情
+     * @param service
+     * @param request
+     * @return
+     */
     @RequestMapping("groupDetail.do")
     public PageBean groupDetail (Service service, HttpServletRequest request){
         PageBean page = WebUtils.getPageBean(request);
@@ -197,7 +200,96 @@ public class DtcTestAction extends BaseAction{
             sql.append(" AND t4.ID=?");
             condition.add(params.get("centerId"));
         }
+        sql.append(" order by t2.ASSIGN_TIME desc");
         page = DBTools.getDataList(service,sql.toString(),page,condition);
         return page;
+    }
+
+    @RequestMapping("testProcess.do")
+    public Map<String,Object> testProcess(Service service,HttpServletRequest request){
+        DtcTestBean test = dtcTestService.getCurrentTest(service);
+        if(test!=null){
+            Map<String,Object> result = new HashMap<>();
+            Map<String,Object> params = WebUtils.getRequestData(request);
+            //表头
+            List<Object> header = new ArrayList<>();
+            //内容
+            List<List<Object>> body = new ArrayList<>();
+            //内容汇总
+            List<Object> bodyCollect = new ArrayList<>();
+            //底部
+            List<List<Object>> groupBottom = new ArrayList<>();
+
+            List<DtcCenterBean> centers = dtcTestService.getCenters(service);
+            List<DtcAgeGroupBean> ageGroups =dtcTestService.getAgeGroups(service);
+            header.add("统计项");
+            for(DtcCenterBean bean : centers){
+                header.add(bean.getCenterName());
+            }
+            for(int i =0;i<ageGroups.size();i++){
+                List<Object> singleData = new ArrayList<>();
+                DtcAgeGroupBean ageGroupBean = ageGroups.get(i);
+                int total  = 0;
+                singleData.add(ageGroupBean.getGroupName());
+                for(int j =0;j<centers.size();j++){
+                    DtcCenterBean centerBean = centers.get(j);
+                    //统计每个中心和年龄分组对应的进展情况
+                    StringBuilder sql= new StringBuilder();
+                    sql.append("select count(1) AS counts from dtc_test_center_patient t1")
+                    .append(" left join dtc_test_center t2 on t1.TEST_CENTER_ID = t2.ID")
+                    .append(" left join dtc_test t3 on t2.TEST_ID = t3.ID")
+                    .append(" left join dtc_age_group t4 on t1.GROUP_ID = t4.ID")
+                    .append(" where t2.CENTER_ID=?")
+                    .append(" and t3.ID=?")
+                    .append(" and  t4.ID=?");
+                    Map<String,Object> counts = DBTools.getData(service,sql.toString(),centerBean.getId(),test.getId(),ageGroupBean.getId());
+                    singleData.add(counts.get("counts"));
+                    total+=Integer.parseInt(counts.get("counts").toString());
+                }
+                singleData.add(total);
+                body.add(singleData);
+            }
+            header.add("总计");
+            int [] total = new int[body.get(0).size()-1];
+            for(int i =0;i<body.size() ;i++){
+                List<Object> collect = body.get(i);
+                for(int j =1;j<collect.size();j++){
+                   total[j-1]+=Integer.parseInt(collect.get(j).toString());
+                }
+            }
+            List<Object> re =new ArrayList<>();
+            re.add(0,"总计");
+            for(Object o : total){
+                re.add(o);
+            }
+            body.add(re);
+            result.put("header",header);
+            result.put("body",body);
+            //AB组统计
+            for(String groupName : new String[]{"A","B"}){
+                List<Object> singleData = new ArrayList<>();
+                singleData.add(groupName);
+                int totalCount = 0;
+                for(DtcCenterBean centerBean : centers){
+                    StringBuilder sql= new StringBuilder();
+                    sql.append("select count(1) as counts from dtc_test_center_patient t1 ")
+                            .append(" left join dtc_test_center t2 on t1.TEST_CENTER_ID = t2.ID")
+                            .append(" left join dtc_test t3 on t2.TEST_ID = t3.ID ")
+                            .append(" left join dtc_test_number t4 on t1.NUMBER_ID = t4.ID")
+                            .append(" where t2.CENTER_ID=?")
+                            .append(" and t3.ID=?")
+                            .append(" and t4.GROUP_NAME=?");
+                    Map<String,Object> counts = DBTools.getData(service,sql.toString(),centerBean.getId(),test.getId(),groupName);
+                    singleData.add(counts.get("counts"));
+                    totalCount+=Integer.parseInt(counts.get("counts").toString());
+                }
+                singleData.add(totalCount);
+                groupBottom.add(singleData);
+
+            }
+            result.put("groupBottom",groupBottom);
+            return result;
+        }
+        return null;
     }
 }

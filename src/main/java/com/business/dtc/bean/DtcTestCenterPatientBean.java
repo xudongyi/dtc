@@ -13,7 +13,7 @@ import net.sf.rose.jdbc.bean.annotation.Type;
  * @description:检验测试病人
  */
 @Table(name = "DTC_TEST_CENTER_PATIENT")
-public class DtcTestCenterPatient extends ModelBean {
+public class DtcTestCenterPatientBean extends ModelBean {
 
 	@Column(pk = true, name = "ID", type = Type.定长文本, description = "主键", canNull = false, size = 32, policy = "UUID")
 	private String id;
@@ -29,6 +29,9 @@ public class DtcTestCenterPatient extends ModelBean {
 
 	@Column(name = "NUMBER_ID", type = Type.变长文本, canNull = false, size = 32)
 	private String numberId;
+
+    @Column(name = "GROUP_ID", type = Type.变长文本, canNull = false, size = 32)
+    private String groupId;
 
 	@Column(name = "NAME", type = Type.变长文本, canNull = false, size = 50)
 	private String name;
@@ -91,7 +94,15 @@ public class DtcTestCenterPatient extends ModelBean {
 		this.numberId = numberId;
 	}
 
-	public String getName() {
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    public String getName() {
 		return name;
 	}
 
