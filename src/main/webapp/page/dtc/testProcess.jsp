@@ -14,6 +14,7 @@
     <title>试验分组详情</title>
     <script src="${ctx}/js/vue.min.js"></script>
     <script src="${ctx}/js/jquery-1.9.1.min.js"></script>
+    <script src="${ctx}/js/common.js"></script>
     <style>
         body, html {
             margin: 0;
@@ -45,6 +46,11 @@
 </head>
 <body>
 <div id="main" v-cloak>
+    <div style="width: 90%;margin: auto;margin-top:10px;">
+        <span style="font-weight: bold">试验进展报告</span>
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        <span>{{new Date(test.createTime).Format('yyyy/MM/dd hh:mm:ss')}}  至 {{new Date().Format('yyyy/MM/dd hh:mm:ss')}}</span>
+    </div>
     <table border="1" bordercolor="#cccccc">
         <thead>
         <tr>
@@ -65,7 +71,8 @@
         el: "#main",
         data: {
             header: [],
-            body: []
+            body: [],
+            test:{}
         },
         created: function () {
             var that = this;
@@ -74,6 +81,12 @@
                 success: function (data) {
                     that.header = data.header;
                     that.body = data.body;
+                }
+            })
+            $.ajax({
+                url: "${ctx}/test/current.do",
+                success: function (data) {
+                    that.test = data;
                 }
             })
         },

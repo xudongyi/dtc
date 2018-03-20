@@ -80,6 +80,15 @@
         if(field=='ASSIGN_TIME'){
             e.cellHtml = new Date(value).Format("yyyy-MM-dd hh:mm:ss");
         }
+        if(field=="SEX"){
+            if(value==1){
+                e.cellHtml="男";
+            }else if(value==2){
+                e.cellHtml="女";
+            }else{
+                e.cellHtml="未知";
+            }
+        }
     });
 
     function searchQuery(){

@@ -29,6 +29,10 @@ import com.business.dtc.util.DBTools;
 public class DtcTestAction extends BaseAction{
 
 
+    @RequestMapping("/current.do")
+    public  DtcTestBean getCurrentTest(Service service){
+        return dtcTestService.getCurrentTest(service);
+    }
 
     @RequestMapping("/getCenterList.do")
     public List<DtcCenterBean> getCenterList(Service service,HttpServletRequest request){
