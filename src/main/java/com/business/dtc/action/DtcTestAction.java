@@ -224,8 +224,8 @@ public class DtcTestAction extends BaseAction{
             //底部
             List<List<Object>> groupBottom = new ArrayList<>();
 
-            List<DtcCenterBean> centers = dtcTestService.getCenters(service);
-            List<DtcAgeGroupBean> ageGroups =dtcTestService.getAgeGroups(service);
+            List<DtcCenterBean> centers = dtcTestService.getTestCenters(service,test.getId());
+            List<DtcAgeGroupBean> ageGroups =dtcTestService.getTestAgeGroups(service,test.getId());
             header.add("统计项");
             for(DtcCenterBean bean : centers){
                 header.add(bean.getCenterName());

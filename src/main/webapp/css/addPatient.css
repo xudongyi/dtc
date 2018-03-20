@@ -1,0 +1,90 @@
+.red{
+    color:red;
+}
+.main_left{
+    float: left;
+    width: 332px;
+    height: 340px;
+    margin-left:30px;
+    margin-top:20px;
+    border-bottom-left-radius:4px ;
+    border-bottom-right-radius:4px ;
+    background: #fff;
+}
+.main_left .left_title{
+    height: 35px;
+    width: 100%;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    line-height:35px;
+    text-align: center;
+    color:#fff;
+    font-weight:bold;
+    background: #6CA9A5;
+}
+ul,li{
+    margin:0;
+    padding: 0;
+    float: left;
+}
+ul{
+    width: 95%;
+    margin-left: 2.5%;
+}
+ul li{
+    display: block;
+    width:33.33%;
+    height:33px;
+    line-height: 33px;
+    font-size: 14px;
+    text-align: center;
+}
+.bottom_title{
+    float: left;
+    font-size:16px;
+    width: 95%;
+    margin: auto;
+    text-align: center;
+    margin-top:40px;
+    font-weight: bold;;
+}
+.main_center{
+    float: left;
+    width:calc(100% - 362px);
+    height:500px;
+}
+.main_center table{
+    width: 80%;
+    margin-left:20px;
+    margin-top:20px;
+}
+.main_center table tr{
+    height:40px;
+
+}
+.main_center table tr td:nth-of-type(2n+1){
+    text-align: right;
+    width: 20%;
+}
+input,textarea,select{
+    margin-left:10px;
+    height: 30px;
+    width: 330px;
+}
+select{
+    height:35px;
+    width: 335px;
+}
+.button-add{
+    display: block;
+    width: 334px;
+    height: 35px;
+    text-align: center;
+    color:#fff;
+    background: #6CA9A5;
+    line-height:35px;
+    margin-top: 10px;
+    margin-left:10px;
+    border-radius: 4px;
+    text-decoration: none;
+}

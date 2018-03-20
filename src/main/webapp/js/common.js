@@ -49,6 +49,15 @@ function delCookie(name)
     if(cval!=null)
         document.cookie= name + "="+cval+";expires="+exp.toGMTString();
 }
+
+function checkInputFromData(jsonData,checkProperty){
+    for(var key in checkProperty){
+        if(!jsonData[key] || jsonData[key]==""){
+            return false;
+        }
+    }
+    return true;
+}
 /******************************************************************************************
  * miniUI的方法集
  *****************************************************************************************/

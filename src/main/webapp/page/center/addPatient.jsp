@@ -13,7 +13,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>初始化</title>
     <script src="${ctx}/js/vue.min.js"></script>
+    <script src="${ctx}/js/common.js"></script>
     <script src="${ctx}/js/jquery-1.9.1.min.js"></script>
+    <script src="${ctx}/js/laydate/laydate.js"></script>
     <link rel="stylesheet" href="${ctx}/css/addPatient.css">
 
     <style>
@@ -33,7 +35,100 @@
 </head>
 <body>
 <div id="main" v-cloak>
+    <div class="main_left">
+        <div class="left_title">
+            啥是点击氨氮试剂卡视角
+        </div>
+        <ul style="margin-top:10px;font-weight: bold;border-bottom: 1px solid #999999">
+            <li>区组类型</li>
+            <li>试验最少人数</li>
+            <li>已进组人数</li>
+        </ul>
+        <ul class="body_class" v-for="(item,index) in info.info" style="height: 35px;line-height: 35px;border-bottom: 1px dotted #999999">
+            <li>{{item.GROUP_NAME}}</li>
+            <li>{{item.MIN_COUNT}}</li>
+            <li>{{item.counts}}</li>
+        </ul>
 
+        <ul style="font-weight: bold;">
+            <li>总计</li>
+            <li>{{info.total[0]}}</li>
+            <li>{{info.total[1]}}</li>
+        </ul>
+        <div class="bottom_title">
+            中心允许最多人数:{{info.centerInfo.centerMax}}
+        </div>
+    </div>
+    <div class="main_center">
+        <table>
+            <tr>
+                <td><span class="red">*</span>被试者姓名</td>
+                <td>
+                    <input type="text" v-model="formData.name">
+                </td>
+            </tr>
+            <tr>
+                <td><span class="red">*</span>被试者性别</td>
+                <td>
+                    <select name="" v-model="formData.sex">
+                        <option value="">--请选择--</option>
+                        <option value="1">男</option>
+                        <option value="2">女</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><span class="red">*</span>出生年月</td>
+                <td>
+                    <div class="layui-inline"> <!-- 注意：这一层元素并不是必须的 -->
+                        <input v-model="formData.birthday"  type="text" id="birthday" class="layui-input">
+                    </div>
+
+                </td>
+            </tr>
+            <tr>
+                <td><span class="red">*</span>年龄(周岁)</td>
+                <td>
+                    <input type="text" v-model="formData.age" @blur="ageBlur">
+                </td>
+            </tr>
+            <tr>
+                <td>婚姻状况</td>
+                <td>
+                    <select name="" v-model="formData.isMarry">
+                        <option value="">--请选择--</option>
+                        <option value="1">已婚</option>
+                        <option value="2">未婚</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>联系方式</td>
+                <td>
+                    <input type="text" v-model="formData.mobile">
+                </td>
+            </tr>
+            <tr>
+                <td>住址</td>
+                <td>
+                    <input type="text" v-model="formData.address">
+                </td>
+            </tr>
+            <tr>
+                <td><span class="red">*</span>选号操作者</td>
+                <td>
+                    <input type="text" readonly value="${sessionScope.get("user").realName}">
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <a href="javascript:;" @click="addPatient" class="button-add">参与试验</a>
+                </td>
+            </tr>
+
+        </table>
+    </div>
 </div>
 
 </body>
@@ -42,13 +137,75 @@
     var vm = new Vue({
         el: "#main",
         data: {
+            info:{total:[0,0],centerInfo:{centerMax:0}},
+            formData:{}
         },
         created: function () {
             var that = this;
-
+            $.ajax({
+                url:"${ctx}/center/getCenterInfo.do",
+                success:function(data){
+                    that.info = data;
+                }
+            })
+        },
+        mounted:function(){
+            //常规用法
+            laydate.render({
+                elem: '#birthday',
+                done: function(value, date, endDate){
+                    that.formData.birthday = value;
+                    if(that.formData.age && that.formData.age!=""){
+                        $.ajax({
+                            url:"${ctx}/center/checkAgeWithBirthday.do",
+                            data:{
+                                age:that.formData.age,
+                                birthday:value
+                            },
+                            success:function(data){
+                                if(!data){
+                                    $("#birthday").val("");
+                                    that.formData.birthday = "";
+                                    alert("选择的生日和年龄不匹配,请检查数据!");
+                                }
+                            }
+                        })
+                    }
+                }
+            });
         },
         methods: {
+            ageBlur:function(){
+                var that = this;
+                if(that.formData.age && that.formData.age!=""
+                    && that.formData.birthday && that.formData.birthday!=""){
+                    $.ajax({
+                        url:"${ctx}/center/checkAgeWithBirthday.do",
+                        data:{
+                            age:that.formData.age,
+                            birthday:that.formData.birthday
+                        },
+                        success:function(data){
+                            if(!data){
+                                that.formData.age = "";
+                                alert("生日和年龄不匹配,请检查数据!");
+                            }
+                        }
+                    })
+                }
 
+            },
+            checkInput:function(){
+                var check = checkInputFromData(this.formData, ["name","sex","age","birthday"]);
+                return check;
+            },
+            addPatient:function(){
+                if(this.checkInput()){
+
+                }else{
+                    alert("必填项没有填写")
+                }
+            }
         }
     })
 </script>

@@ -1,9 +1,12 @@
 package com.business.dtc.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.business.dtc.bean.*;
 import net.sf.rose.jdbc.service.Service;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author: xudy
@@ -11,6 +14,8 @@ import net.sf.rose.jdbc.service.Service;
  * @description:
  */
 public interface DtcTestService {
+
+    public DtcCenterBean getCurrentUser(HttpServletRequest request);
 
 	/**
 	 * 根据centerId获取中心的基本信息
@@ -32,6 +37,8 @@ public interface DtcTestService {
 	 * @return
 	 */
 	boolean checkPermission(Service service, DtcTestCenterPatientBean patient, DtcTestCenterBean testCenterBean);
+
+    DtcAgeGroupBean getDtcTestGroup(Service service,int age,String testId,String centerId);
 
 	/**
 	 * 获取当前正在进行的测试
@@ -79,8 +86,10 @@ public interface DtcTestService {
      */
 	boolean createTestNumbers(Service service,String testId,int counts);
 
-	List<DtcCenterBean> getCenters(Service Service);
+	List<DtcCenterBean> getTestCenters(Service Service,String testId);
 
-	List<DtcAgeGroupBean> getAgeGroups(Service service);
+	List<DtcAgeGroupBean> getTestAgeGroups(Service service,String testId);
+
+	List<Map<String,Object>> getCenterGroupDetail(Service service,String testId,String centerId);
 
 }

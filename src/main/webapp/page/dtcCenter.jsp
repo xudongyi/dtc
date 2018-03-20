@@ -89,7 +89,7 @@
             tabLevel: 1,
             dateTime: new Date().Format("yyyy-MM-dd hh:mm:ss"),
             tabList: [],
-            initSrc: "${ctx}/page/center/test.jsp",
+            initSrc: "${ctx}/page/center/addPatient.jsp",
         },
         created: function() {
             //获取顶部菜单数据

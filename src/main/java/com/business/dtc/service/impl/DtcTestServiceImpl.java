@@ -14,6 +14,8 @@ import com.business.dtc.bean.*;
 import com.business.dtc.service.DtcTestService;
 import com.business.dtc.util.DBTools;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author: xudy
  * @date: 2018/03/14 16:54
@@ -31,14 +33,50 @@ public class DtcTestServiceImpl implements DtcTestService {
 	}
 
     @Override
-    public List<DtcAgeGroupBean> getAgeGroups(Service service) {
-        List<DtcAgeGroupBean> list = DBUtils.getBeanList(service,DtcAgeGroupBean.class);
+    public DtcCenterBean getCurrentUser(HttpServletRequest request) {
+        DtcCenterBean bean = (DtcCenterBean)request.getSession().getAttribute("user");
+        return bean;
+    }
+
+    @Override
+    public List<Map<String, Object>> getCenterGroupDetail(Service service, String testId, String centerId) {
+        StringBuilder sql = new StringBuilder();
+	    sql.append("select j3.GROUP_NAME,j2.* from (")
+                .append(" select count(1) as counts,j1.group_id,MIN_COUNT from (")
+                .append(" select t1.*,t3.MIN_COUNT from dtc_test_center_patient t1")
+                .append(" left join dtc_test_center t2 on t1.TEST_CENTER_ID = t2.ID")
+                .append(" left join dtc_test_center_group t3 on t3.GROUP_ID = t1.GROUP_ID")
+                .append(" left join dtc_test_center t4 on t3.TEST_CENTER_ID = t4.ID")
+                .append(" where t2.TEST_ID=?")
+                .append(" and t2.CENTER_ID=?")
+                .append(" and t4.CENTER_ID=?) as j1 ")
+                .append(" group by j1.group_id) as j2 ")
+                .append(" left join dtc_age_group j3 on j2.group_id = j3.ID")
+                .append(" order by j3.min_age ");
+	    List<Map<String,Object>> result = DBTools.getDataList(service,sql.toString(),testId,centerId,centerId);
+	    return result;
+    }
+
+    @Override
+    public List<DtcAgeGroupBean> getTestAgeGroups(Service service,String testId) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select DISTINCT(t2.ID) ,t2.*  from dtc_test_center_group t1")
+                .append(" left join dtc_age_group t2 on t1.GROUP_ID = t2.ID")
+                .append(" left join dtc_test_center t3 on t1.TEST_CENTER_ID = t3.ID")
+                .append(" left join dtc_test t4 on t3.TEST_ID = t4.ID")
+                .append(" where t4.ID=? order by t2.MIN_AGE asc");
+        List<DtcAgeGroupBean> list = DBTools.getBeanList(service,DtcAgeGroupBean.class,sql.toString(),testId);
         return list;
     }
 
     @Override
-    public List<DtcCenterBean> getCenters(Service service) {
-        List<DtcCenterBean> list = DBTools.getBeanList(service,DtcCenterBean.class,"select * from DTC_CENTER WHERE IS_DELETED=1 AND ROLE=2");
+    public List<DtcCenterBean> getTestCenters(Service service,String testId) {
+	    StringBuilder sql = new StringBuilder();
+        sql.append("select t2.* from dtc_test_center t1 ")
+        .append(" left join dtc_center t2 on t1.CENTER_ID = t2.ID")
+        .append(" left join dtc_test t3 on t1.TEST_ID = t3.ID")
+        .append(" where t1.TEST_ID=? order by t2.CREATE_TIME asc");
+        List<DtcCenterBean> list = DBTools.getBeanList(service,DtcCenterBean.class,sql.toString(),testId);
         return list;
 	}
 
@@ -109,12 +147,23 @@ public class DtcTestServiceImpl implements DtcTestService {
 		return 0;
 	}
 
-	@Override
+    @Override
+    public DtcAgeGroupBean getDtcTestGroup(Service service, int age, String testId, String centerId) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select  t2.* from dtc_test_center_group t1 ")
+        .append(" left join  dtc_age_group t2 on t1.GROUP_ID = t2.ID")
+        .append(" left join dtc_test_center t3 on t1.TEST_CENTER_ID = t3.ID ")
+        .append(" where t2.MIN_AGE<=23 and t2.MAX_AGE>=23 and t3.TEST_ID =?")
+        .append(" and t3.CENTER_ID=?");
+        DtcAgeGroupBean ageGroupBean = DBTools.getBean(service,DtcAgeGroupBean.class,sql.toString(),testId,centerId);
+	    return ageGroupBean;
+    }
+
+    @Override
 	public boolean getTestNumberCacheAndAssign(Service service, String testId, String testCenterId, DtcTestCenterPatientBean patient) {
 		int age = patient.getAge();
-		// 1.首先查询年龄是属于哪一组
-		String sql = "select * from dtc_age_group where MIN_AGE<=? and MAX_AGE>=?";
-		DtcAgeGroupBean group = DBTools.getBean(service, DtcAgeGroupBean.class, sql, age, age);
+		// 1.首先查询年龄是属于这次试验的哪一组
+		DtcAgeGroupBean group = getDtcTestGroup(service,age,testId,patient.getCenterId());
 		// 2.获取对应年龄段的缓存信息
 		if (group != null) {
 			List<DtcTestNumberCacheBean> cacheBeanList = DBTools.getBeanList(service, DtcTestNumberCacheBean.class,
@@ -172,7 +221,9 @@ public class DtcTestServiceImpl implements DtcTestService {
 
 			}
 
-		}
+		}else{
+            LOG.error("该年龄不在测试年龄段的范围之内,请输入正确的病人!");
+        }
 
 		return false;
 	}
