@@ -150,6 +150,7 @@
             })
         },
         mounted:function(){
+            var that = this;
             //常规用法
             laydate.render({
                 elem: '#birthday',
