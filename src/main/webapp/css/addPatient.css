@@ -70,10 +70,11 @@ input,textarea,select{
     margin-left:10px;
     height: 30px;
     width: 330px;
+    padding-left:5px;
 }
 select{
     height:35px;
-    width: 335px;
+    width: 339px;
 }
 .button-add{
     display: block;

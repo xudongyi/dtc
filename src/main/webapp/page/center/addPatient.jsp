@@ -37,7 +37,7 @@
 <div id="main" v-cloak>
     <div class="main_left">
         <div class="left_title">
-            啥是点击氨氮试剂卡视角
+            {{test.name}}
         </div>
         <ul style="margin-top:10px;font-weight: bold;border-bottom: 1px solid #999999">
             <li>区组类型</li>
@@ -89,7 +89,7 @@
             <tr>
                 <td><span class="red">*</span>年龄(周岁)</td>
                 <td>
-                    <input type="text" v-model="formData.age" @blur="ageBlur">
+                    <input type="number" v-model="formData.age" @blur="ageBlur">
                 </td>
             </tr>
             <tr>
@@ -140,7 +140,8 @@
             info:{total:[0,0],centerInfo:{centerMax:0}},
             formData:{
 
-            }
+            },
+            test:{}//测试信息
         },
         created: function () {
             var that = this;
@@ -148,6 +149,13 @@
                 url:"${ctx}/center/getCenterInfo.do",
                 success:function(data){
                     that.info = data;
+                }
+            })
+
+            $.ajax({
+                url:"${ctx}/test/current.do",
+                success:function(data){
+                    that.test = data;
                 }
             })
         },
