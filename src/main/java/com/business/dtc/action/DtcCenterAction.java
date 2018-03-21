@@ -82,7 +82,7 @@ public class DtcCenterAction extends  BaseAction {
      * @param patient
      */
     @RequestMapping("addPatient.do")
-    public Map<String,Object> addPatient(Service service, @ModelAttribute DtcTestCenterPatientBean patient){
+    public int addPatient(Service service, @ModelAttribute DtcTestCenterPatientBean patient){
         //1.获取正在进行的试验
         DtcTestBean testBean = dtcTestService.getCurrentTest(service);
         if(testBean!=null){
@@ -96,14 +96,15 @@ public class DtcCenterAction extends  BaseAction {
                 if(dtcTestService.checkPermission(service,patient,testCenterBean)){
                     System.out.println("能参加该测试!");
                     //4.能够继续参加试验首先从缓存中获取对应年龄段的缓存信息
-                    boolean assign = dtcTestService.getTestNumberCacheAndAssign(service,testId,testCenterBean.getId(),patient);
+                    int randomNum = dtcTestService.getTestNumberCacheAndAssign(service,testId,testCenterBean.getId(),patient);
+                    return randomNum;
                 }else{
                     System.out.println("不能参加该测试!");
                 }
 
             }
         }
-        return null;
+        return 0;
     }
 
     /**

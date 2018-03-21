@@ -160,8 +160,9 @@ public class DtcTestServiceImpl implements DtcTestService {
     }
 
     @Override
-	public boolean getTestNumberCacheAndAssign(Service service, String testId, String testCenterId, DtcTestCenterPatientBean patient) {
-		int age = patient.getAge();
+	public int getTestNumberCacheAndAssign(Service service, String testId, String testCenterId, DtcTestCenterPatientBean patient) {
+		int ramdomNum = 0;
+	    int age = patient.getAge();
 		// 1.首先查询年龄是属于这次试验的哪一组
 		DtcAgeGroupBean group = getDtcTestGroup(service,age,testId,patient.getCenterId());
 		// 2.获取对应年龄段的缓存信息
@@ -207,6 +208,7 @@ public class DtcTestServiceImpl implements DtcTestService {
 							if (k <= 0) {
 								LOG.error("更新dtc_test_center失败");
 							} else {
+                                ramdomNum = number.getNumber();
 								LOG.warn("分配成功!");
 							}
 						} else {
@@ -225,7 +227,7 @@ public class DtcTestServiceImpl implements DtcTestService {
             LOG.error("该年龄不在测试年龄段的范围之内,请输入正确的病人!");
         }
 
-		return false;
+		return ramdomNum;
 	}
 
 	/**

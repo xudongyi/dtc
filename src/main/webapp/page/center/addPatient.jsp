@@ -12,9 +12,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>初始化</title>
+    <script src="${ctx}/js/boot.js"></script>
     <script src="${ctx}/js/vue.min.js"></script>
-    <script src="${ctx}/js/common.js"></script>
-    <script src="${ctx}/js/jquery-1.9.1.min.js"></script>
     <script src="${ctx}/js/laydate/laydate.js"></script>
     <link rel="stylesheet" href="${ctx}/css/addPatient.css">
 
@@ -26,10 +25,11 @@
             margin: 0;
             padding: 0;
             background: #F3F2F0;
+            font-family:"微软雅黑","microsoft yahei";
         }
 
-        table tr td:first-of-type {
-
+        table{
+            font-size:13px;
         }
     </style>
 </head>
@@ -169,7 +169,7 @@
                                 if(!data){
                                     $("#birthday").val("");
                                     that.formData.birthday = "";
-                                    alert("选择的生日和年龄不匹配,请检查数据!");
+                                    mini.alert("选择的生日和年龄不匹配,请检查数据!");
                                 }
                             }
                         })
@@ -191,7 +191,7 @@
                         success:function(data){
                             if(!data){
                                 that.formData.age = "";
-                                alert("生日和年龄不匹配,请检查数据!");
+                                mini.alert("生日和年龄不匹配,请检查数据!");
                             }
                         }
                     })
@@ -212,16 +212,22 @@
                         type:"post",
                         data:that.formData,
                         success:function(data){
-                            if(data){
-                                alert("添加成功!");
+                            if(data>0){
+                                mini.alert("添加成功!试验号为:"+data);
+                                location.reload();
                             }else{
-
+                                that.clearForm();
+                                mini.alert("添加失败!")
                             }
                         }
                     })
                 }else{
-                    alert("必填项没有填写")
+                    mini.alert("必填项没有填写")
                 }
+            },
+            clearForm:function(){
+                this.formData = {};
+                $("#birthday").val("")
             }
         }
     })

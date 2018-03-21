@@ -76,7 +76,7 @@ public interface DtcTestService {
 	 * @param patient
 	 * @return
 	 */
-	boolean getTestNumberCacheAndAssign(Service service, String testId, String testCenterId, DtcTestCenterPatientBean patient);
+	int getTestNumberCacheAndAssign(Service service, String testId, String testCenterId, DtcTestCenterPatientBean patient);
 
     /**
      * 生成随机号
