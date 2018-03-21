@@ -51,8 +51,8 @@ function delCookie(name)
 }
 
 function checkInputFromData(jsonData,checkProperty){
-    for(var key in checkProperty){
-        if(!jsonData[checkProperty[key]] || jsonData[checkProperty[key]]==""){
+    for(var i=0;i<checkProperty.length;i++){
+        if(!jsonData[checkProperty[i]] || jsonData[checkProperty[i]]==""){
             return false;
         }
     }

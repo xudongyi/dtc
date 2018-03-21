@@ -213,8 +213,9 @@
                         data:that.formData,
                         success:function(data){
                             if(data>0){
-                                mini.alert("添加成功!试验号为:"+data);
-                                location.reload();
+                                mini.alert("添加成功!试验号为:"+data,"提示",function(msg){
+                                    location.reload();
+                                });
                             }else{
                                 that.clearForm();
                                 mini.alert("添加失败!")
