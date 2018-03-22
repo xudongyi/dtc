@@ -28,7 +28,7 @@
 <div class="mini-fit">
     <div class="search-content" id="formSearch">
         <div class="row-button">
-            <a class="mini-button" iconCls="icon-add" onclick="addData()">新增</a>
+            <a class="btn btn-info btn-sm"  href="javascript:addData()">新增</a>
         </div>
     </div>
     <div id="datagrid" style="width: 100%;height:93%;" class="mini-datagrid" url="${ctx}/base/center/list.do"  showPager="fasle">

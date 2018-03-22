@@ -3,8 +3,10 @@ package com.business.dtc.action;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.business.dtc.bean.*;
+import com.business.dtc.util.ExportExcel;
 import net.sf.rose.jdbc.DBUtils;
 import net.sf.rose.jdbc.KeyGenerator;
 import net.sf.rose.jdbc.PageBean;
@@ -12,6 +14,7 @@ import net.sf.rose.jdbc.service.Service;
 import net.sf.rose.util.StringUtil;
 
 import net.sf.rose.web.utils.WebUtils;
+import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +30,8 @@ import com.business.dtc.util.DBTools;
 @RestController
 @RequestMapping("test")
 public class DtcTestAction extends BaseAction{
-
+    
+    private Logger LOG = Logger.getLogger(DtcTestAction.class);
 
     @RequestMapping("/current.do")
     public  DtcTestBean getCurrentTest(Service service){
@@ -152,20 +156,20 @@ public class DtcTestAction extends BaseAction{
 
                     int [] re = DBTools.bacthInsertBean(service,DtcTestCenterGroupBean.class,groupBeanList);
                     if(re.length==groupBeanList.size()){
-                        System.out.println("新增成功");
+                        LOG.warn("新增成功");
                         return true;
 
                     }else{
-                        System.out.println("新增中心年龄表失败");
+                        LOG.error("新增中心年龄表失败");
                     }
 
                 }else{
-                    System.out.println("新增中心测试表失败");
+                    LOG.error("新增中心测试表失败");
                 }
 
 
             }else{
-                System.out.println("新增测试失败");
+                LOG.error("新增测试失败");
             }
 
         }
@@ -209,6 +213,51 @@ public class DtcTestAction extends BaseAction{
         return page;
     }
 
+    /**
+     * 导出
+     * @param service
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/groupDetailExport.do")
+    public void exportGroupDetail(Service service, HttpServletRequest request, HttpServletResponse response){
+        Map<String,Object> params = WebUtils.getRequestData(request);
+        DtcTestBean test = dtcTestService.getCurrentTest(service);
+        StringBuilder sql = new StringBuilder();
+        sql.append("select t1.*,t2.NUMBER,t2.GROUP_NAME,t2.ASSIGN_TIME,t4.CENTER_NAME from dtc_test_center_patient t1")
+                .append(" left join dtc_test_number t2 on t1.ID = t2.PATIENT_ID ")
+                .append(" left join dtc_test_center t3 on t1.TEST_CENTER_ID = t3.ID ")
+                .append(" left join dtc_center t4 on t3.CENTER_ID = t4.ID ")
+                .append(" where t2.TEST_ID=?");
+        List<Object> condition = new ArrayList<>();
+        condition.add(test.getId());
+        if(params.containsKey("beginTime")){
+            sql.append(" AND t2.ASSIGN_TIME>=?");
+            condition.add(params.get("beginTime"));
+        }
+        if(params.containsKey("endTime")){
+            sql.append(" AND t2.ASSIGN_TIME<=?");
+            condition.add(params.get("endTime"));
+        }
+        if(params.containsKey("centerId")){
+            sql.append(" AND t4.ID=?");
+            condition.add(params.get("centerId"));
+        }
+        sql.append(" order by t2.ASSIGN_TIME desc");
+        List<Map<String,Object>> list = DBTools.getDataList(service,sql.toString(),condition);
+        String headers[] = { "被试者编号", "被试者姓名", "性别", "年龄", "操作者", "试验中心", "随机号", "分组", "入组时间"};
+        String colums[] = { "PATIENT_NUMBER", "NAME", "SEX", "AGE", "CREATE_USER", "CENTER_NAME", "NUMBER",
+                "GROUP_NAME", "ASSIGN_TIME"};
+        ExportExcel.excel(request, response, test.getName()+"-数据导出", headers, colums, null, list, "企业基础信息");
+    }
+
+
+    /**
+     * 试验进度
+     * @param service
+     * @param request
+     * @return
+     */
     @RequestMapping("testProcess.do")
     public Map<String,Object> testProcess(Service service,HttpServletRequest request){
         DtcTestBean test = dtcTestService.getCurrentTest(service);

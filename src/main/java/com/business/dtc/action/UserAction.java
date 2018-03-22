@@ -64,19 +64,19 @@ public class UserAction {
      * 修改密码
      * @param service
      * @param request
-     * @param userName
+     * @param id
      * @param password
-     * @param newpassword
+     * @param newpwd
      * @return
      */
     @RequestMapping("/changePwd.do")
     @ResponseBody
-    public boolean changePwd(Service service,HttpServletRequest request,String userName,String password,String newpassword){
-        DtcCenterBean bean = DBTools.getBean(service,DtcCenterBean.class,"select * from DTC_CENTER where USER_NAME=? AND PASSWORD=? AND IS_DELETED=1",userName,password);
+    public boolean changePwd(Service service,HttpServletRequest request,String id,String password,String newpwd){
+        DtcCenterBean bean = DBTools.getBean(service,DtcCenterBean.class,"select * from DTC_CENTER where ID=? AND PASSWORD=? AND IS_DELETED=1",id,password);
         if(bean==null){
             return false;
         }
-        bean.setPassword(newpassword);
+        bean.setPassword(newpwd);
         int i = DBUtils.update(service,bean);
         return i>0;
     }

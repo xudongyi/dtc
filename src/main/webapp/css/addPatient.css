@@ -60,7 +60,6 @@ ul li{
 }
 .main_center table tr{
     height:40px;
-
 }
 .main_center table tr td:nth-of-type(2n+1){
     text-align: right;
@@ -89,3 +88,4 @@ select{
     border-radius: 4px;
     text-decoration: none;
 }
+[v-cloak]{ display: none; }

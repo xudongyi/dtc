@@ -40,8 +40,9 @@ public class DtcBaseAction extends  BaseAction{
      * @param group
      */
     @RequestMapping("group/save.do")
-    public void saveGroup(Service service, @ModelAttribute DtcAgeGroupBean group){
+    public int saveGroup(Service service, @ModelAttribute DtcAgeGroupBean group){
 
+        return -1;
     }
 
     /**

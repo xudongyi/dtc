@@ -131,8 +131,8 @@
                 parent_id: 4,
                 id: 42
             },{
-                name: "系统设置",
-                url: "/page/dtc/sysConfig.jsp",
+                name: "修改密码",
+                url: "/page/center/editPwd.jsp",
                 img: "${ctx}/images/dtc/6-xtgl.png",
                 parent_id: "",
                 id: 5

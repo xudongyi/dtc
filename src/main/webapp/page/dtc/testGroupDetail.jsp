@@ -104,7 +104,7 @@
         var queryForm = new mini.Form("#queryForm");
         queryForm.validate();
         if (queryForm.isValid()) {
-            var url = "${ctx}/securityRisk/back/allRiskListExport.do";
+            var url = "${ctx}/test/groupDetailExport.do";
             $('#exportForm').attr("action", url);
             $("#exportForm").submit();
         }

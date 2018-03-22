@@ -1,0 +1,52 @@
+*{
+    margin:0;
+    padding:0;
+}
+body,html{
+    width: 100%;
+    height: 100%;
+}
+#main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:100%;
+    height: 100%;
+}
+.main_body{
+    width:668px;
+    height:398px;
+}
+table{
+    margin:auto;
+}
+table tr{
+    height:40px;
+}
+table tr td:nth-of-type(2n+1){
+    text-align: right;
+    width: 20%;
+}
+input,textarea,select{
+    margin-left:10px;
+    height: 30px;
+    width: 330px;
+    padding-left:5px;
+}
+
+.button-add{
+    display: block;
+    width: 334px;
+    height: 35px;
+    text-align: center;
+    color:#fff;
+    background: #6CA9A5;
+    line-height:35px;
+    margin-top: 10px;
+    margin-left:10px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+.red{
+    color:red;
+}
