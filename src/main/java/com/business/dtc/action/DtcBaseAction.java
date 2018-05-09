@@ -30,8 +30,22 @@ public class DtcBaseAction extends  BaseAction{
      * @param request
      */
     @RequestMapping("group/list.do")
-    public void ageGroupList(Service service, HttpServletRequest request){
+    public List<DtcAgeGroupBean> ageGroupList(Service service, HttpServletRequest request){
+        List<DtcAgeGroupBean> list = DBUtils.getBeanList(service,DtcAgeGroupBean.class);
+        return list;
+    }
 
+
+    /**
+     * 检查年龄段在数据库中是否已经存在
+     * @param service
+     * @param group
+     */
+    @RequestMapping("group/checkAge.do")
+    public boolean checkAge(Service service, @ModelAttribute DtcAgeGroupBean group){
+        String sql = "select * from dtc_age_group where MIN_AGE<=? and MAX_AGE>=?";
+        DtcAgeGroupBean g = DBTools.getBean(service,DtcAgeGroupBean.class,sql,group.getMinAge(),group.getMaxAge());
+        return g!=null;
     }
 
     /**
@@ -41,8 +55,8 @@ public class DtcBaseAction extends  BaseAction{
      */
     @RequestMapping("group/save.do")
     public int saveGroup(Service service, @ModelAttribute DtcAgeGroupBean group){
-
-        return -1;
+        int i = DBUtils.update(service,group);
+        return i;
     }
 
     /**
