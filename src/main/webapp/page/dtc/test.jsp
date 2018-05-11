@@ -96,6 +96,9 @@
             showButton:true
         },
         created: function () {
+
+        },
+        mounted:function(){
             var that = this;
             $.ajax({
                 url: "${ctx}/test/getCenterList.do",
@@ -134,7 +137,6 @@
                 }
 
             })
-
         },
         methods: {
             saveTest: function () {

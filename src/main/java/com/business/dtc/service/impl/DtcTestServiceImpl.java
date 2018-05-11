@@ -153,9 +153,9 @@ public class DtcTestServiceImpl implements DtcTestService {
         sql.append("select  t2.* from dtc_test_center_group t1 ")
         .append(" left join  dtc_age_group t2 on t1.GROUP_ID = t2.ID")
         .append(" left join dtc_test_center t3 on t1.TEST_CENTER_ID = t3.ID ")
-        .append(" where t2.MIN_AGE<=23 and t2.MAX_AGE>=23 and t3.TEST_ID =?")
+        .append(" where t2.MIN_AGE<=? and t2.MAX_AGE>=? and t3.TEST_ID =?")
         .append(" and t3.CENTER_ID=?");
-        DtcAgeGroupBean ageGroupBean = DBTools.getBean(service,DtcAgeGroupBean.class,sql.toString(),testId,centerId);
+        DtcAgeGroupBean ageGroupBean = DBTools.getBean(service,DtcAgeGroupBean.class,sql.toString(),age,age,testId,centerId);
 	    return ageGroupBean;
     }
 
